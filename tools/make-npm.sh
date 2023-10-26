@@ -4,24 +4,24 @@
 
 set -e
 
-DES="dist/build/uBlock0.npm"
+DEST="dist/build/uBlock0.npm"
 
 TMPDIR="$PWD/tmp"
 mkdir -p "$TMPDIR/node_modules"
 
-rm -rf $DES
+rm -rf $DEST
 
-./tools/make-nodejs.sh $DES
-./tools/make-assets.sh $DES
+./tools/make-nodejs.sh $DEST
+./tools/make-assets.sh $DEST
 
 # Target-specific
-cp    platform/npm/.npmignore  $DES/
-cp    platform/npm/*.json      $DES/
-cp    platform/npm/.*.json     $DES/
-cp    platform/npm/*.js        $DES/
-cp -R platform/npm/tests       $DES/
+cp    platform/npm/.npmignore  $DEST/
+cp    platform/npm/*.json      $DEST/
+cp    platform/npm/.*.json     $DEST/
+cp    platform/npm/*.js        $DEST/
+cp -R platform/npm/tests       $DEST/
 
-cd $DES
+cd $DEST
 cd tests/data
 tar xzf bundle.tgz
 cd -

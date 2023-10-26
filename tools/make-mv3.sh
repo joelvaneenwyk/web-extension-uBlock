@@ -35,20 +35,20 @@ for i in "$@"; do
   esac
 done
 
-DES="dist/build/uBOLite.$PLATFORM"
+DEST="dist/build/uBOLite.$PLATFORM"
 
 if [ "$QUICK" != "yes" ]; then
-    rm -rf $DES
+    rm -rf $DEST
 fi
 
-mkdir -p $DES
-cd $DES
-DES=$(pwd)
+mkdir -p $DEST
+cd $DEST
+DEST=$(pwd)
 cd - > /dev/null
 
-mkdir -p $DES/css/fonts
-mkdir -p $DES/js
-mkdir -p $DES/img
+mkdir -p $DEST/css/fonts
+mkdir -p $DEST/js
+mkdir -p $DEST/img
 
 if [ -n "$UBO_VERSION" ]; then
     UBO_REPO="https://github.com/gorhill/uBlock.git"
@@ -65,41 +65,41 @@ else
 fi
 
 echo "*** uBOLite.mv3: Copying common files"
-cp -R $UBO_DIR/src/css/fonts/* $DES/css/fonts/
-cp $UBO_DIR/src/css/themes/default.css $DES/css/
-cp $UBO_DIR/src/css/common.css $DES/css/
-cp $UBO_DIR/src/css/dashboard-common.css $DES/css/
-cp $UBO_DIR/src/css/fa-icons.css $DES/css/
+cp -R $UBO_DIR/src/css/fonts/* $DEST/css/fonts/
+cp $UBO_DIR/src/css/themes/default.css $DEST/css/
+cp $UBO_DIR/src/css/common.css $DEST/css/
+cp $UBO_DIR/src/css/dashboard-common.css $DEST/css/
+cp $UBO_DIR/src/css/fa-icons.css $DEST/css/
 
-cp $UBO_DIR/src/js/dom.js $DES/js/
-cp $UBO_DIR/src/js/fa-icons.js $DES/js/
-cp $UBO_DIR/src/js/i18n.js $DES/js/
-cp $UBO_DIR/src/lib/punycode.js $DES/js/
+cp $UBO_DIR/src/js/dom.js $DEST/js/
+cp $UBO_DIR/src/js/fa-icons.js $DEST/js/
+cp $UBO_DIR/src/js/i18n.js $DEST/js/
+cp $UBO_DIR/src/lib/punycode.js $DEST/js/
 
-cp -R $UBO_DIR/src/img/flags-of-the-world $DES/img
+cp -R $UBO_DIR/src/img/flags-of-the-world $DEST/img
 
-cp LICENSE.txt $DES/
+cp LICENSE.txt $DEST/
 
 echo "*** uBOLite.mv3: Copying mv3-specific files"
 if [ "$PLATFORM" = "firefox" ]; then
-    cp platform/mv3/firefox/background.html $DES/
+    cp platform/mv3/firefox/background.html $DEST/
 fi
-cp platform/mv3/extension/*.html $DES/
-cp platform/mv3/extension/*.json $DES/
-cp platform/mv3/extension/css/* $DES/css/
-cp -R platform/mv3/extension/js/* $DES/js/
-cp platform/mv3/extension/img/* $DES/img/
-cp -R platform/mv3/extension/_locales $DES/
-cp platform/mv3/README.md $DES/
+cp platform/mv3/extension/*.html $DEST/
+cp platform/mv3/extension/*.json $DEST/
+cp platform/mv3/extension/css/* $DEST/css/
+cp -R platform/mv3/extension/js/* $DEST/js/
+cp platform/mv3/extension/img/* $DEST/img/
+cp -R platform/mv3/extension/_locales $DEST/
+cp platform/mv3/README.md $DEST/
 
 if [ "$QUICK" != "yes" ]; then
     echo "*** uBOLite.mv3: Generating rulesets"
     TMPDIR=$(mktemp -d)
     mkdir -p $TMPDIR
     if [ "$PLATFORM" = "chromium" ]; then
-        cp platform/mv3/chromium/manifest.json $DES/
+        cp platform/mv3/chromium/manifest.json $DEST/
     elif [ "$PLATFORM" = "firefox" ]; then
-        cp platform/mv3/firefox/manifest.json $DES/
+        cp platform/mv3/firefox/manifest.json $DEST/
     fi
     ./tools/make-nodejs.sh $TMPDIR
     cp platform/mv3/package.json $TMPDIR/
@@ -111,13 +111,13 @@ if [ "$QUICK" != "yes" ]; then
     mkdir -p $TMPDIR/web_accessible_resources
     cp $UBO_DIR/src/web_accessible_resources/* $TMPDIR/web_accessible_resources/
     cd $TMPDIR
-    node --no-warnings make-rulesets.js output=$DES platform="$PLATFORM"
+    node --no-warnings make-rulesets.js output=$DEST platform="$PLATFORM"
     cd - > /dev/null
     rm -rf $TMPDIR
 fi
 
 echo "*** uBOLite.mv3: extension ready"
-echo "Extension location: $DES/"
+echo "Extension location: $DEST/"
 
 if [ "$FULL" = "yes" ]; then
     EXTENSION="zip"
@@ -126,16 +126,16 @@ if [ "$FULL" = "yes" ]; then
     fi
     echo "*** uBOLite.mv3: Creating publishable package..."
     if [ -z "$TAGNAME" ]; then
-        TAGNAME="uBOLite_$(jq -r .version $DES/manifest.json)"
+        TAGNAME="uBOLite_$(jq -r .version $DEST/manifest.json)"
     else
         tmp=$(mktemp)
-        jq --arg version "${TAGNAME:8}" '.version = $version' "$DES/manifest.json"  > "$tmp" \
-            && mv "$tmp" "$DES/manifest.json"
+        jq --arg version "${TAGNAME:8}" '.version = $version' "$DEST/manifest.json"  > "$tmp" \
+            && mv "$tmp" "$DEST/manifest.json"
     fi
     PACKAGENAME="$TAGNAME.$PLATFORM.mv3.$EXTENSION"
     TMPDIR=$(mktemp -d)
     mkdir -p $TMPDIR
-    cp -R $DES/* $TMPDIR/
+    cp -R $DEST/* $TMPDIR/
     cd $TMPDIR > /dev/null
     zip $PACKAGENAME -qr ./*
     cd - > /dev/null

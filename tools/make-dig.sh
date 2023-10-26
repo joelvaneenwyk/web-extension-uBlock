@@ -4,14 +4,14 @@
 
 set -e
 
-DES="dist/build/uBlock0.dig"
+DEST="dist/build/uBlock0.dig"
 
-./tools/make-nodejs.sh $DES
-./tools/make-assets.sh $DES
+./tools/make-nodejs.sh $DEST
+./tools/make-assets.sh $DEST
 
-cp -R platform/dig/*   $DES/
+cp -R platform/dig/*   $DEST/
 
-cd $DES
+cd $DEST
 npm run build
 
 echo "*** uBlock0.dig: Package done."

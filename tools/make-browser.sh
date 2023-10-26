@@ -4,33 +4,33 @@
 
 set -e
 
-DES=dist/build/uBlock0.browser
+DEST=dist/build/uBlock0.browser
 
-mkdir -p $DES/js
-cp src/js/base64-custom.js           $DES/js
-cp src/js/biditrie.js                $DES/js
-cp src/js/filtering-context.js       $DES/js
-cp src/js/hntrie.js                  $DES/js
-cp src/js/static-filtering-parser.js $DES/js
-cp src/js/static-net-filtering.js    $DES/js
-cp src/js/static-filtering-io.js     $DES/js
-cp src/js/text-utils.js              $DES/js
-cp src/js/uri-utils.js               $DES/js
+mkdir -p $DEST/js
+cp src/js/base64-custom.js           $DEST/js
+cp src/js/biditrie.js                $DEST/js
+cp src/js/filtering-context.js       $DEST/js
+cp src/js/hntrie.js                  $DEST/js
+cp src/js/static-filtering-parser.js $DEST/js
+cp src/js/static-net-filtering.js    $DEST/js
+cp src/js/static-filtering-io.js     $DEST/js
+cp src/js/text-utils.js              $DEST/js
+cp src/js/uri-utils.js               $DEST/js
 
-mkdir -p $DES/js/wasm
-cp -R src/js/wasm $DES/js/
+mkdir -p $DEST/js/wasm
+cp -R src/js/wasm $DEST/js/
 
-mkdir -p $DES/lib
-cp -R src/lib/punycode.js      $DES/lib/
-cp -R src/lib/publicsuffixlist $DES/lib/
-cp -R src/lib/regexanalyzer    $DES/lib/
+mkdir -p $DEST/lib
+cp -R src/lib/punycode.js      $DEST/lib/
+cp -R src/lib/publicsuffixlist $DEST/lib/
+cp -R src/lib/regexanalyzer    $DEST/lib/
 
-mkdir -p $DES/data
+mkdir -p $DEST/data
 cp -R submodules/uAssets/thirdparties/publicsuffix.org/list/* \
-      $DES/data
+      $DEST/data
 cp -R submodules/uAssets/thirdparties/easylist-downloads.adblockplus.org/* \
-      $DES/data
+      $DEST/data
 
-cp platform/browser/*.html $DES/
-cp platform/browser/*.js   $DES/
-cp LICENSE.txt             $DES/
+cp platform/browser/*.html $DEST/
+cp platform/browser/*.js   $DEST/
+cp LICENSE.txt             $DEST/

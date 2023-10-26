@@ -4,22 +4,22 @@
 
 set -e
 
-DES=$1
+DEST=$1
 
-bash ./tools/make-assets.sh        $DES
+bash ./tools/make-assets.sh        $DEST
 
-cp -R src/css                      $DES/
-cp -R src/img                      $DES/
-mkdir $DES/js
-cp -R src/js/*.js                  $DES/js/
-cp -R src/js/codemirror            $DES/js/
-cp -R src/js/scriptlets            $DES/js/
-cp -R src/js/wasm                  $DES/js/
-cp -R src/lib                      $DES/
-cp -R src/web_accessible_resources $DES/
-cp -R src/_locales                 $DES/
+cp -R src/css                      $DEST/
+cp -R src/img                      $DEST/
+mkdir $DEST/js
+cp -R src/js/*.js                  $DEST/js/
+cp -R src/js/codemirror            $DEST/js/
+cp -R src/js/scriptlets            $DEST/js/
+cp -R src/js/wasm                  $DEST/js/
+cp -R src/lib                      $DEST/
+cp -R src/web_accessible_resources $DEST/
+cp -R src/_locales                 $DEST/
 
-cp src/*.html                      $DES/
-cp platform/common/*.js            $DES/js/
-cp platform/common/*.json          $DES/
-cp LICENSE.txt                     $DES/
+cp src/*.html                      $DEST/
+cp platform/common/*.js            $DEST/js/
+cp platform/common/*.json          $DEST/
+cp LICENSE.txt                     $DEST/

@@ -12,7 +12,7 @@ unzip -q ~/Downloads/uBlock\ \(translations\).zip -d $SRC
 
 # https://www.assertnotmagic.com/2018/06/20/bash-brackets-quick-reference/
 
-DES=./src/_locales
+DEST=./src/_locales
 DESMV3=./platform/mv3/extension/_locales
 
 for dir in $SRC/*/; do
@@ -29,7 +29,7 @@ for dir in $SRC/*/; do
     continue
   fi
   # ubo
-  mkdir -p "$DES/$deslang/" && cp "$SRC/$srclang/messages.json" "$DES/$deslang/"
+  mkdir -p "$DEST/$deslang/" && cp "$SRC/$srclang/messages.json" "$DEST/$deslang/"
   # ubo lite
   mkdir -p "$DESMV3/$deslang/" && cp "$SRC/$srclang/uBO-Lite/messages.json" "$DESMV3/$deslang/"
   # descriptions
@@ -42,7 +42,7 @@ done
 # uBO does not use `$`, so any instance of `$` must be investigated.
 # See https://issues.adblockplus.org/ticket/6666
 echo "*** uBlock: Instances of '\$':"
-grep -FR "$" $DES/ || true
+grep -FR "$" $DEST/ || true
 grep -FR "$" $DESMV3/ || true
 
 
