@@ -1,0 +1,8 @@
+{
+    "[shellscript]": {
+        "files.eol": "\n",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell"
+}
