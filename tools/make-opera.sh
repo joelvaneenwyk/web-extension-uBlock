@@ -47,6 +47,7 @@ rm $DEST/lib/publicsuffixlist/wasm/*.wasm
 rm $DEST/lib/publicsuffixlist/wasm/*.wat
 
 echo "*** uBlock0.opera: Generating meta..."
-python3 tools/make-opera-meta.py $DEST/
+if command -v py &> /dev/null; then PYTHON3="py -3"; else PYTHON3="python3"; fi
+$PYTHON3 tools/make-opera-meta.py $DEST/
 
 echo "*** uBlock0.opera: Package done."
