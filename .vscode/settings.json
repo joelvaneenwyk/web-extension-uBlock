@@ -4,5 +4,9 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
-    "terminal.integrated.defaultProfile.windows": "PowerShell"
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "cSpell.words": [
+        "ublock",
+        "unintrusive"
+    ]
 }
