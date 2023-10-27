@@ -3,11 +3,11 @@
 The purpose of this library is to implement LZ4 compression/decompression,
 as documented at the official LZ4 repository:
 
-https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md
+<https://github.com/lz4/lz4/blob/dev/doc/lz4_Block_format.md>
 
 The files in this directory are developed as a separate project at:
 
-https://github.com/gorhill/lz4-wasm
+<https://github.com/gorhill/lz4-wasm>
 
 ## Files
 
@@ -23,7 +23,7 @@ pure javascript-based instance will be created.
 The script for either instance are dynamically loaded and only when needed,
 such that no resources are wasted by keeping in memory code which won't be
 used.
- 
+
 ### `lz4-block-codec-wasm.js`
 
 This contains the code to instantiate WebAssembly-based LZ4 block codec. Note

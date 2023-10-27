@@ -11,7 +11,6 @@ This is a very early version and the API is subject to change at any time.
 
 This package uses [native JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
-
 ## Description
 
 The package contains uBO's static network filtering engine ("SNFE"), which
@@ -19,11 +18,10 @@ purpose is to parse and enforce filter lists. The matching algorithm is highly
 efficient, and _especially_ optimized to match against large sets of pure
 hostnames.
 
-The SNFE can be fed filter lists from a variety of sources, such as [EasyList/EasyPrivacy](https://easylist.to/), 
-[uBlock filters](https://github.com/uBlockOrigin/uAssets/tree/master/filters), 
-and also lists of domain names or hosts file format (i.e. block lists from [The Block List Project](https://github.com/blocklistproject/Lists#the-block-list-project), 
+The SNFE can be fed filter lists from a variety of sources, such as [EasyList/EasyPrivacy](https://easylist.to/),
+[uBlock filters](https://github.com/uBlockOrigin/uAssets/tree/master/filters),
+and also lists of domain names or hosts file format (i.e. block lists from [The Block List Project](https://github.com/blocklistproject/Lists#the-block-list-project),
 [Steven Black's HOSTS](https://github.com/StevenBlack/hosts#readme), etc).
-
 
 ## Usage
 
@@ -39,7 +37,6 @@ If you must import as a NodeJS module:
 ```js
 const { StaticNetFilteringEngine } = await import('@gorhill/ubo-core');
 ```
-
 
 Create an instance of SNFE:
 
@@ -90,29 +87,29 @@ if ( snfe.matchRequest({
 }
 ```
 
-It is possible to pre-parse filter lists and save the intermediate results for 
-later use -- useful to speed up the loading of filter lists. This will be 
-documented eventually, but if you feel adventurous, you can look at the code 
+It is possible to pre-parse filter lists and save the intermediate results for
+later use -- useful to speed up the loading of filter lists. This will be
+documented eventually, but if you feel adventurous, you can look at the code
 and use this capability now if you figure out the details.
 
 ---
 
 ## Extras
 
-You can directly use specific APIs exposed by this package, here are some of 
+You can directly use specific APIs exposed by this package, here are some of
 them, which are used internally by uBO's SNFE.
 
 ### HNTrieContainer
 
-A well optimised [compressed trie](https://en.wikipedia.org/wiki/Trie#Compressing_tries) 
+A well optimised [compressed trie](https://en.wikipedia.org/wiki/Trie#Compressing_tries)
 container specialized to specifically store and lookup hostnames.
 
-The matching algorithm is designed for hostnames, i.e. the hostname labels 
-making up a hostname are matched from right to left, such that `www.example.org` 
-with be a match if `example.org` is stored into the trie, while 
+The matching algorithm is designed for hostnames, i.e. the hostname labels
+making up a hostname are matched from right to left, such that `www.example.org`
+with be a match if `example.org` is stored into the trie, while
 `anotherexample.org` won't be a match.
 
-`HNTrieContainer` is designed to store a large number of hostnames with CPU and 
+`HNTrieContainer` is designed to store a large number of hostnames with CPU and
 memory efficiency as a main concern -- and is a key component of uBO.
 
 To create and use a standalone `HNTrieContainer` object:
@@ -146,13 +143,13 @@ console.log("trieContainer.matches(anotherTrie, 'www.example.org')", trieContain
 console.log("trieContainer.matches(anotherTrie, 'foo.invalid')", trieContainer.matches(anotherTrie, 'foo.invalid'));
 ```
 
-The `reset()` method must be used to remove all the tries from a trie container, 
+The `reset()` method must be used to remove all the tries from a trie container,
 you can't remove a single trie from the container.
 
 ```js
 trieContainer.reset();
 ```
 
-When you reset a trie container, you can't use the reference to prior instances 
-of trie, i.e. `aTrie` and `anotherTrie` are no longer valid and shouldn't be 
+When you reset a trie container, you can't use the reference to prior instances
+of trie, i.e. `aTrie` and `anotherTrie` are no longer valid and shouldn't be
 used following a reset.

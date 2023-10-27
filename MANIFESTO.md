@@ -1,4 +1,4 @@
-uBlock Origin (uBO)'s manifesto:
+# uBlock Origin (uBO)'s Manifesto
 
 The **user decides** what web content is acceptable in their browser.
 

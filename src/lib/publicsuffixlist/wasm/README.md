@@ -26,4 +26,4 @@ Click "Download" button to retrieve the resulting `wasm` file.
 ### See also
 
 For the curious, the following online tool allows you to find out the machine
-code as a result from the WASM code: https://mbebenita.github.io/WasmExplorer/
+code as a result from the WASM code: <https://mbebenita.github.io/WasmExplorer/>

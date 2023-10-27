@@ -13,7 +13,7 @@ The following assumes a linux environment.
 Upon completion of the script, the resulting extension package will become present in:
 
 - Chromium: `dist/build/uBOLite.chromium`
--  Firefox: `dist/build/uBOLite.firefox`
+- Firefox: `dist/build/uBOLite.firefox`
 
 The folder `dist/build/mv3-data` will cache data fetched from remote server, so as to avoid fetching repeatedly from remote server with repeated build commands. Remove `dist/build/mv3-data` if you want to build with latest versions of filter lists.
 
@@ -27,5 +27,5 @@ All the final rulesets are present in the `dist/build/uBOLite.[platform]/ruleset
 
 ---
 
-[1] https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh
-[2] https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh#L103
+[1] <https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh>
+[2] <https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh#L103>
