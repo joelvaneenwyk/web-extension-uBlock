@@ -43,6 +43,9 @@
     },
     "toggle-cosmetic-filtering": {
       "description": "__MSG_toggleCosmeticFiltering__"
+    },
+    "toggle-javascript": {
+      "description": "__MSG_toggleJavascript__"
     }
   },
   "content_scripts": [
@@ -68,8 +71,7 @@
         "https://filterlists.com/*",
         "https://forums.lanik.us/*",
         "https://github.com/*",
-        "https://*.github.io/*",
-        "https://*.letsblock.it/*"
+        "https://*.github.io/*"
       ],
       "js": [
         "/js/scriptlets/subscriber.js"
@@ -106,6 +108,7 @@
     "open_in_tab": true
   },
   "permissions": [
+    "alarms",
     "dns",
     "menus",
     "privacy",

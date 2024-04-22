@@ -143,12 +143,20 @@
     "message": "Ընդլայնված ցանցային զտում, ինչպես նաև հատուկ և առաջադեմ ընդհանուր զտում ընտրված զտիչների ցանկերի համաձայն։\n\nՊահանջում է բոլոր կայքերում տվյալները կարդալու և փոփոխելու թույլտվություն։\n\nԱռաջադեմ ընդհանուր զտումը կարող է առաջացնել վեբ էջի կողմից ռեսուրսների սպառման ավելացում:",
     "description": "This describes the 'complete' filtering mode"
   },
+  "noFilteringModeDescription": {
+    "message": "Հյուրերի անունների ցանկ, որոնց համար զտում չի իրականացվի",
+    "description": "A short description for the editable field which lists trusted sites"
+  },
   "behaviorSectionLabel": {
     "message": "Վարք",
     "description": "The header text for the 'Behavior' section"
   },
   "autoReloadLabel": {
     "message": "Զտման ռեժիմը փոխելիս ինքնաշխատորեն վերաբեռնել էջը",
+    "description": "Label for a checkbox in the options page"
+  },
+  "showBlockedCountLabel": {
+    "message": "Ցուցադրել արգելափակված հայտերի քանակը գործիքների վահանակին",
     "description": "Label for a checkbox in the options page"
   }
 }

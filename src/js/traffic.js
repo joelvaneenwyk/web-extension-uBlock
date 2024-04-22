@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    uBlock Origin - a comprehensive, efficient content blocker
     Copyright (C) 2014-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -551,7 +551,7 @@ const onHeadersReceived = function(details) {
             }
         }
         if ( jobs.length !== 0 ) {
-            bodyFilterer.doFilter(fctxt, jobs);
+            bodyFilterer.doFilter(details.requestId, fctxt, jobs);
         }
     }
 
@@ -590,7 +590,7 @@ const onHeadersReceived = function(details) {
     }
 };
 
-const reMediaContentTypes = /^(?:audio|image|video)\//;
+const reMediaContentTypes = /^(?:audio|image|video)\/|(?:\/ogg)$/;
 
 /******************************************************************************/
 
@@ -687,6 +687,7 @@ const bodyFilterer = (( ) => {
         'application/vnd.api+json',
         'application/vnd.apple.mpegurl',
         'application/vnd.apple.mpegurl.audio',
+        'application/x-javascript',
         'application/x-mpegurl',
         'application/xhtml+xml',
         'application/xml',
@@ -748,7 +749,7 @@ const bodyFilterer = (( ) => {
             /* t */ if ( bytes[i+6] !== 0x74 ) { continue; }
             break;
         }
-        if ( (i - 40) >= 65536 ) { return; }
+        if ( (i + 40) >= 65536 ) { return; }
         i += 8;
         // find first alpha character
         let j = -1;
@@ -826,13 +827,17 @@ const bodyFilterer = (( ) => {
         }
         if ( this.status !== 'finishedtransferringdata' ) { return; }
 
-        // If encoding is still unknown, try to extract from stream data
+        // If encoding is still unknown, try to extract from stream data.
+        // Just assume utf-8 if ultimately no encoding can be looked up.
         if ( session.charset === undefined ) {
             const charsetFound = charsetFromStream(session.buffer);
-            if ( charsetFound === undefined ) { return streamClose(session); }
-            const charsetUsed = textEncode.normalizeCharset(charsetFound);
-            if ( charsetUsed === undefined ) { return streamClose(session); }
-            session.charset = charsetUsed;
+            if ( charsetFound !== undefined ) {
+                const charsetUsed = textEncode.normalizeCharset(charsetFound);
+                if ( charsetUsed === undefined ) { return streamClose(session); }
+                session.charset = charsetUsed;
+            } else {
+                session.charset = 'utf-8';
+            }
         }
 
         while ( session.jobs.length !== 0 ) {
@@ -885,10 +890,10 @@ const bodyFilterer = (( ) => {
             this.str = s;
             this.modified = true;
         }
-        static doFilter(fctxt, jobs) {
+        static doFilter(requestId, fctxt, jobs) {
             if ( jobs.length === 0 ) { return; }
             const session = new Session(fctxt, mime, charset, jobs);
-            session.stream = browser.webRequest.filterResponseData(session.id);
+            session.stream = browser.webRequest.filterResponseData(requestId);
             session.stream.ondata = onStreamData;
             session.stream.onstop = onStreamStop;
             session.stream.onerror = onStreamError;

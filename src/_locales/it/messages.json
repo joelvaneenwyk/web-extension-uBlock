@@ -40,7 +40,7 @@
     "description": "appears as tab name in dashboard"
   },
   "whitelistPageName": {
-    "message": "Whitelist",
+    "message": "Siti affidabili",
     "description": "appears as tab name in dashboard"
   },
   "shortcutsPageName": {
@@ -483,6 +483,14 @@
     "message": "Domini con Malware",
     "description": "Filter lists section name"
   },
+  "3pGroupSocial": {
+    "message": "Widget sociali",
+    "description": "Filter lists section name"
+  },
+  "3pGroupCookies": {
+    "message": "Avviso sui cookie",
+    "description": "Filter lists section name"
+  },
   "3pGroupAnnoyances": {
     "message": "Elementi fastidiosi",
     "description": "Filter lists section name"
@@ -527,13 +535,17 @@
     "message": "Un errore di rete ha impedito l'aggiornamento della risorsa.",
     "description": "used as a tooltip for error icon beside a list"
   },
-  "1pFormatHint": {
-    "message": "Un filtro per riga. Un filtro può essere un semplice hostname, o un filtro compatibile con EasyList. Ogni riga che comincia con <code>!</code> verrà ignorata.",
-    "description": "Short information about how to create custom filters"
-  },
   "1pTrustWarning": {
     "message": "Non aggiungere filtri da fonti non attendibili.",
     "description": "Warning against copy-pasting filters from random sources"
+  },
+  "1pEnableMyFiltersLabel": {
+    "message": "Abilita i miei filtri personalizzati",
+    "description": "Label for the checkbox use to enable/disable 'My filters' list"
+  },
+  "1pTrustMyFiltersLabel": {
+    "message": "Consenti i filtri personalizzati che richiedono affidabilità",
+    "description": "Label for the checkbox use to trust the content of 'My filters' list"
   },
   "1pImport": {
     "message": "Importa e aggiungi",
@@ -1250,6 +1262,10 @@
   "toggleCosmeticFiltering": {
     "message": "Attiva/Disattiva filtri cosmetici",
     "description": "Label for keyboard shortcut used to toggle cosmetic filtering"
+  },
+  "toggleJavascript": {
+    "message": "Attiva o disattiva JavaScript",
+    "description": "Label for keyboard shortcut used to toggle no-scripting switch"
   },
   "relaxBlockingMode": {
     "message": "Rilassa la modalità di blocco",

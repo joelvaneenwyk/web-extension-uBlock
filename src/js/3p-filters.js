@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    uBlock Origin - a comprehensive, efficient content blocker
     Copyright (C) 2014-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,9 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-'use strict';
-
-import { i18n, i18n$ } from './i18n.js';
 import { dom, qs$, qsa$ } from './dom.js';
+import { i18n, i18n$ } from './i18n.js';
+import { onBroadcast } from './broadcast.js';
 
 /******************************************************************************/
 
@@ -31,13 +30,15 @@ const obsoleteTemplateString = i18n$('3pExternalListObsolete');
 const reValidExternalList = /^[a-z-]+:\/\/(?:\S+\/\S*|\/\S+)/m;
 const recentlyUpdated = 1 * 60 * 60 * 1000; // 1 hour
 
+// https://eslint.org/docs/latest/rules/no-prototype-builtins
+const hasOwnProperty = (o, p) =>
+    Object.prototype.hasOwnProperty.call(o, p);
+
 let listsetDetails = {};
 
 /******************************************************************************/
 
-const messaging = vAPI.messaging;
-
-vAPI.broadcastListener.add(msg => {
+onBroadcast(msg => {
     switch ( msg.what ) {
     case 'assetUpdated':
         updateAssetStatus(msg);
@@ -75,7 +76,9 @@ const renderNodeStats = (used, total) => {
 };
 
 const i18nGroupName = name => {
-    return i18n$('3pGroup' + name.charAt(0).toUpperCase() + name.slice(1));
+    const groupname = i18n$('3pGroup' + name.charAt(0).toUpperCase() + name.slice(1));
+    if ( groupname !== '' ) { return groupname; }
+    return `${name.charAt(0).toLocaleUpperCase}${name.slice(1)}`;
 };
 
 /******************************************************************************/
@@ -91,8 +94,9 @@ const renderFilterLists = ( ) => {
 
     const initializeListEntry = (listDetails, listEntry) => {
         const listkey = listEntry.dataset.key;
+        const groupkey = listDetails.group2 || listDetails.group;
         const listEntryPrevious =
-            qs$(`[data-key="${listDetails.group}"] [data-key="${listkey}"]`);
+            qs$(`[data-key="${groupkey}"] [data-key="${listkey}"]`);
         if ( listEntryPrevious !== null ) {
             if ( dom.cl.has(listEntryPrevious, 'checked') ) {
                 dom.cl.add(listEntry, 'checked');
@@ -130,7 +134,9 @@ const renderFilterLists = ( ) => {
             dom.attr(elem, 'href', listDetails.instructionURL || '#');
         }
         dom.cl.toggle(listEntry, 'isDefault',
-            listDetails.isDefault === true || listkey === 'user-filters'
+            listDetails.isDefault === true ||
+            listDetails.isImportant === true ||
+            listkey === 'user-filters'
         );
         elem = qs$(listEntry, '.leafstats');
         dom.text(elem, renderLeafStats(on ? listDetails.entryUsedCount : 0, listDetails.entryCount));
@@ -178,6 +184,9 @@ const renderFilterLists = ( ) => {
         if ( depth !== 0 ) {
             const reEmojis = /\p{Emoji}+/gu;
             treeEntries.sort((a ,b) => {
+                const ap = a[1].preferred === true;
+                const bp = b[1].preferred === true;
+                if ( ap !== bp ) { return ap ? -1 : 1; }
                 const as = (a[1].title || a[0]).replace(reEmojis, '');
                 const bs = (b[1].title || b[0]).replace(reEmojis, '');
                 return as.localeCompare(bs);
@@ -222,8 +231,11 @@ const renderFilterLists = ( ) => {
             'privacy',
             'malware',
             'multipurpose',
+            'cookies',
+            'social',
             'annoyances',
             'regions',
+            'unknown',
             'custom'
         ];
         for ( const key of groupKeys ) {
@@ -233,16 +245,19 @@ const renderFilterLists = ( ) => {
             };
         }
         for ( const [ listkey, listDetails ] of Object.entries(response.available) ) {
-            let groupKey = listDetails.group;
-            if ( groupKey === 'social' ) {
-                groupKey = 'annoyances';
+            let groupkey = listDetails.group2 || listDetails.group;
+            if ( hasOwnProperty(listTree, groupkey) === false ) {
+                groupkey = 'unknown';
             }
-            const groupDetails = listTree[groupKey];
+            const groupDetails = listTree[groupkey];
             if ( listDetails.parent !== undefined ) {
                 let lists = groupDetails.lists;
                 for ( const parent of listDetails.parent.split('|') ) {
                     if ( lists[parent] === undefined ) {
                         lists[parent] = { title: parent, lists: {} };
+                    }
+                    if ( listDetails.preferred === true ) {
+                        lists[parent].preferred = true;
                     }
                     lists = lists[parent].lists;
                 }
@@ -252,6 +267,15 @@ const renderFilterLists = ( ) => {
                 groupDetails.lists[listkey] = listDetails;
             }
         }
+        // https://github.com/uBlockOrigin/uBlock-issues/issues/3154#issuecomment-1975413427
+        //   Remove empty sections
+        for ( const groupkey of groupKeys ) {
+            const groupDetails = listTree[groupkey];
+            if ( groupDetails === undefined ) { continue; }
+            if ( Object.keys(groupDetails.lists).length !== 0 ) { continue; }
+            delete listTree[groupkey];
+        }
+
         const listEntries = createListEntries('root', listTree);
         qs$('#lists .listEntries').replaceWith(listEntries);
 
@@ -275,7 +299,7 @@ const renderFilterLists = ( ) => {
         renderWidgets();
     };
 
-    messaging.send('dashboard', {
+    return vAPI.messaging.send('dashboard', {
         what: 'getLists',
     }).then(response => {
         onListsReceived(response);
@@ -285,17 +309,14 @@ const renderFilterLists = ( ) => {
 /******************************************************************************/
 
 const renderWidgets = ( ) => {
+    const updating = dom.cl.has(dom.body, 'updating');
+    const hasObsolete = qs$('#lists .listEntry.checked.obsolete:not(.toRemove)') !== null;
     dom.cl.toggle('#buttonApply', 'disabled',
         filteringSettingsHash === hashFromCurrentFromSettings()
     );
-    const updating = dom.cl.has(dom.body, 'updating');
     dom.cl.toggle('#buttonUpdate', 'active', updating);
     dom.cl.toggle('#buttonUpdate', 'disabled',
-        updating === false &&
-        qs$('#lists .listEntry.checked.obsolete:not(.toRemove)') === null
-    );
-    dom.cl.toggle('#buttonPurgeAll', 'disabled',
-        updating || qs$('#lists .listEntry.cached:not(.obsolete)') === null
+        updating === false && hasObsolete === false
     );
 };
 
@@ -508,9 +529,10 @@ const onPurgeClicked = ev => {
         dom.cl.remove(listLeaf, 'cached');
     }
 
-    messaging.send('dashboard', {
-        what: 'purgeCaches',
+    vAPI.messaging.send('dashboard', {
+        what: 'listsUpdateNow',
         assetKeys,
+        preferOrigin: ev.shiftKey,
     });
 
     // If the cached version is purged, the installed version must be assumed
@@ -518,6 +540,7 @@ const onPurgeClicked = ev => {
     // https://github.com/gorhill/uBlock/issues/1733
     //   An external filter list must not be marked as obsolete, they will
     //   always be fetched anyways if there is no cached copy.
+    dom.cl.add(dom.body, 'updating');
     dom.cl.add(liEntry, 'obsolete');
 
     if ( qs$(liEntry, 'input[type="checkbox"]').checked ) {
@@ -530,9 +553,37 @@ dom.on('#lists', 'click', 'span.cache', onPurgeClicked);
 /******************************************************************************/
 
 const selectFilterLists = async ( ) => {
+    // External filter lists to import
+    // Find stock list matching entries in lists to import
+    const toImport = (( ) => {
+        const textarea = qs$('#lists .listEntry[data-role="import"].expanded textarea');
+        if ( textarea === null ) { return ''; }
+        const lists = listsetDetails.available;
+        const lines = textarea.value.split(/\s+/);
+        const after = [];
+        for ( const line of lines ) {
+            after.push(line);
+            if ( /^https?:\/\//.test(line) === false ) { continue; }
+            for ( const [ listkey, list ] of Object.entries(lists) ) {
+                if ( list.content !== 'filters' ) { continue; }
+                if ( list.contentURL === undefined ) { continue; }
+                if ( list.contentURL.includes(line) === false ) { continue; }
+                const groupkey = list.group2 || list.group;
+                const listEntry = qs$(`[data-key="${groupkey}"] [data-key="${listkey}"]`);
+                if ( listEntry === null ) { break; }
+                toggleFilterList(listEntry, true);
+                after.pop();
+                break;
+            }
+        }
+        dom.cl.remove(textarea.closest('.expandable'), 'expanded');
+        textarea.value = '';
+        return after.join('\n');
+    })();
+
     // Cosmetic filtering switch
     let checked = qs$('#parseCosmeticFilters').checked;
-    messaging.send('dashboard', {
+    vAPI.messaging.send('dashboard', {
         what: 'userSettings',
         name: 'parseAllABPHideFilters',
         value: checked,
@@ -540,7 +591,7 @@ const selectFilterLists = async ( ) => {
     listsetDetails.parseCosmeticFilters = checked;
 
     checked = qs$('#ignoreGenericCosmeticFilters').checked;
-    messaging.send('dashboard', {
+    vAPI.messaging.send('dashboard', {
         what: 'userSettings',
         name: 'ignoreGenericCosmeticFilters',
         value: checked,
@@ -552,7 +603,7 @@ const selectFilterLists = async ( ) => {
     const toRemove = [];
     for ( const liEntry of qsa$('#lists .listEntry[data-role="leaf"]') ) {
         const listkey = liEntry.dataset.key;
-        if ( listsetDetails.available.hasOwnProperty(listkey) === false ) {
+        if ( hasOwnProperty(listsetDetails.available, listkey) === false ) {
             continue;
         }
         const listDetails = listsetDetails.available[listkey];
@@ -569,17 +620,9 @@ const selectFilterLists = async ( ) => {
         }
     }
 
-    // External filter lists to import
-    const textarea = qs$('#lists .listEntry[data-role="import"].expanded textarea');
-    const toImport = textarea !== null && textarea.value.trim() || '';
-    if ( textarea !== null ) {
-        dom.cl.remove(textarea.closest('.expandable'), 'expanded');
-        textarea.value = '';
-    }
-
     hashFromListsetDetails();
 
-    await messaging.send('dashboard', {
+    await vAPI.messaging.send('dashboard', {
         what: 'applyFilterListSelection',
         toSelect,
         toImport,
@@ -594,7 +637,7 @@ const buttonApplyHandler = async ( ) => {
     dom.cl.add(dom.body, 'working');
     dom.cl.remove('#lists .listEntry.stickied', 'stickied');
     renderWidgets();
-    await messaging.send('dashboard', { what: 'reloadAllFilters' });
+    await vAPI.messaging.send('dashboard', { what: 'reloadAllFilters' });
     dom.cl.remove(dom.body, 'working');
 };
 
@@ -607,28 +650,16 @@ const buttonUpdateHandler = async ( ) => {
     await selectFilterLists();
     dom.cl.add(dom.body, 'updating');
     renderWidgets();
-    messaging.send('dashboard', { what: 'forceUpdateAssets' });
+    vAPI.messaging.send('dashboard', { what: 'updateNow' });
 };
 
 dom.on('#buttonUpdate', 'click', ( ) => { buttonUpdateHandler(); });
 
 /******************************************************************************/
 
-const buttonPurgeAllHandler = async hard => {
-    await messaging.send('dashboard', {
-        what: 'purgeAllCaches',
-        hard,
-    });
-    renderFilterLists(true);
-};
-
-dom.on('#buttonPurgeAll', 'click', ev => { buttonPurgeAllHandler(ev.shiftKey); });
-
-/******************************************************************************/
-
 const userSettingCheckboxChanged = ( ) => {
     const target = event.target;
-    messaging.send('dashboard', {
+    vAPI.messaging.send('dashboard', {
         what: 'userSettings',
         name: target.id,
         value: target.checked,
@@ -642,7 +673,7 @@ dom.on('#suspendUntilListsAreLoaded', 'change', userSettingCheckboxChanged);
 /******************************************************************************/
 
 const searchFilterLists = ( ) => {
-    const pattern = dom.prop('.searchbar input', 'value') || '';
+    const pattern = dom.prop('.searchfield input', 'value') || '';
     dom.cl.toggle('#lists', 'searchMode', pattern !== '');
     if ( pattern === '' ) { return; }
     const reflectSearchMatches = listEntry => {
@@ -669,10 +700,11 @@ const searchFilterLists = ( ) => {
         if ( listDetails === undefined ) { continue; }
         let haystack = perListHaystack.get(listDetails);
         if ( haystack === undefined ) {
+            const groupkey = listDetails.group2 || listDetails.group || '';
             haystack = [
                 listDetails.title,
-                listDetails.group || '',
-                i18nGroupName(listDetails.group || ''),
+                groupkey,
+                i18nGroupName(groupkey),
                 listDetails.tags || '',
                 toI18n(listDetails.tags || ''),
             ].join(' ').trim();
@@ -685,14 +717,13 @@ const searchFilterLists = ( ) => {
 
 const perListHaystack = new WeakMap();
 
-dom.on('.searchbar input', 'input', searchFilterLists);
+dom.on('.searchfield input', 'input', searchFilterLists);
 
 /******************************************************************************/
 
 const expandedListSet = new Set([
-    'uBlock filters',
-    'AdGuard – Annoyances',
-    'EasyList – Annoyances',
+    'cookies',
+    'social',
 ]);
 
 const listIsExpanded = which => {
@@ -856,12 +887,20 @@ self.cloud.onPull = function fromCloudData(data, append) {
 
 /******************************************************************************/
 
+self.wikilink = 'https://github.com/gorhill/uBlock/wiki/Dashboard:-Filter-lists';
+
 self.hasUnsavedData = function() {
     return hashFromCurrentFromSettings() !== filteringSettingsHash;
 };
 
 /******************************************************************************/
 
-renderFilterLists();
+renderFilterLists().then(( ) => {
+    const buttonUpdate = qs$('#buttonUpdate');
+    if ( dom.cl.has(buttonUpdate, 'active') ) { return; }
+    if ( dom.cl.has(buttonUpdate, 'disabled') ) { return; }
+    if ( listsetDetails.autoUpdate !== true ) { return; }
+    buttonUpdateHandler();
+});
 
 /******************************************************************************/

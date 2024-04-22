@@ -143,12 +143,20 @@
     "message": "Avancerad nätverksfiltrering plus specifik och allmän utökad filtrering från utvalda filterlistor.\n\nKräver bred behörighet för att läsa och ändra data på alla webbplatser.\n\nAllmän utökad filtrering kan orsaka högre användning av webbsidors resurser.",
     "description": "This describes the 'complete' filtering mode"
   },
+  "noFilteringModeDescription": {
+    "message": "Lista över värdnamn som inte kommer att filtreras",
+    "description": "A short description for the editable field which lists trusted sites"
+  },
   "behaviorSectionLabel": {
     "message": "Beteende",
     "description": "The header text for the 'Behavior' section"
   },
   "autoReloadLabel": {
     "message": "Ladda automatiskt om sidan när du byter filtreringsläge",
+    "description": "Label for a checkbox in the options page"
+  },
+  "showBlockedCountLabel": {
+    "message": "Visa antalet blockerade förfrågningar på verktygsfältsikonen",
     "description": "Label for a checkbox in the options page"
   }
 }

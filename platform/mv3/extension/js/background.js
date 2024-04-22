@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    uBlock Origin Lite - a comprehensive, MV3-compliant content blocker
     Copyright (C) 2022-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -19,54 +19,56 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-/* jshint esversion:11 */
-
-'use strict';
-
 /******************************************************************************/
 
 import {
+    adminRead,
     browser,
     dnr,
-    runtime,
     localRead, localWrite,
+    runtime,
     sessionRead, sessionWrite,
-    adminRead,
 } from './ext.js';
 
 import {
-    getRulesetDetails,
+    broadcastMessage,
+    ubolLog,
+} from './utils.js';
+
+import {
     defaultRulesetsFromLanguage,
     enableRulesets,
     getEnabledRulesetsDetails,
+    getRulesetDetails,
     updateDynamicRules,
 } from './ruleset-manager.js';
 
 import {
-    registerInjectables,
-} from './scripting-manager.js';
-
-import {
-    getFilteringMode,
-    setFilteringMode,
     getDefaultFilteringMode,
+    getFilteringMode,
+    getTrustedSites,
     setDefaultFilteringMode,
+    setFilteringMode,
+    setTrustedSites,
     syncWithBrowserPermissions,
 } from './mode-manager.js';
 
 import {
-    ubolLog,
-} from './utils.js';
+    registerInjectables,
+} from './scripting-manager.js';
 
 /******************************************************************************/
 
 const rulesetConfig = {
     version: '',
     enabledRulesets: [ 'default' ],
-    autoReload: 1,
+    autoReload: true,
+    showBlockedCount: true,
 };
 
 const UBOL_ORIGIN = runtime.getURL('').replace(/\/$/, '');
+
+const canShowBlockedCount = typeof dnr.setExtensionActionOptions === 'function';
 
 let firstRun = false;
 let wakeupRun = false;
@@ -82,7 +84,12 @@ async function loadRulesetConfig() {
     if ( data ) {
         rulesetConfig.version = data.version;
         rulesetConfig.enabledRulesets = data.enabledRulesets;
-        rulesetConfig.autoReload = data.autoReload;
+        rulesetConfig.autoReload = typeof data.autoReload === 'boolean'
+            ? data.autoReload
+            : true;
+        rulesetConfig.showBlockedCount = typeof data.showBlockedCount === 'boolean'
+            ? data.showBlockedCount
+            : true;
         wakeupRun = true;
         return;
     }
@@ -90,7 +97,12 @@ async function loadRulesetConfig() {
     if ( data ) {
         rulesetConfig.version = data.version;
         rulesetConfig.enabledRulesets = data.enabledRulesets;
-        rulesetConfig.autoReload = data.autoReload;
+        rulesetConfig.autoReload = typeof data.autoReload === 'boolean'
+            ? data.autoReload
+            : true;
+        rulesetConfig.showBlockedCount = typeof data.showBlockedCount === 'boolean'
+            ? data.showBlockedCount
+            : true;
         sessionWrite('rulesetConfig', rulesetConfig);
         return;
     }
@@ -151,8 +163,7 @@ function onMessage(request, sender, callback) {
         }).catch(reason => {
             console.log(reason);
         });
-        callback();
-        return;
+        return false;
     }
 
     default:
@@ -174,6 +185,7 @@ function onMessage(request, sender, callback) {
         }).then(( ) => {
             registerInjectables();
             callback();
+            broadcastMessage({ enabledRulesets: rulesetConfig.enabledRulesets });
         });
         return true;
     }
@@ -181,20 +193,25 @@ function onMessage(request, sender, callback) {
     case 'getOptionsPageData': {
         Promise.all([
             getDefaultFilteringMode(),
+            getTrustedSites(),
             getRulesetDetails(),
             dnr.getEnabledRulesets(),
         ]).then(results => {
             const [
                 defaultFilteringMode,
+                trustedSites,
                 rulesetDetails,
                 enabledRulesets,
             ] = results;
             callback({
                 defaultFilteringMode,
+                trustedSites: Array.from(trustedSites),
                 enabledRulesets,
                 maxNumberOfEnabledRulesets: dnr.MAX_NUMBER_OF_ENABLED_STATIC_RULESETS,
                 rulesetDetails: Array.from(rulesetDetails.values()),
-                autoReload: rulesetConfig.autoReload === 1,
+                autoReload: rulesetConfig.autoReload,
+                showBlockedCount: rulesetConfig.showBlockedCount,
+                canShowBlockedCount,
                 firstRun,
             });
             firstRun = false;
@@ -203,9 +220,23 @@ function onMessage(request, sender, callback) {
     }
 
     case 'setAutoReload':
-        rulesetConfig.autoReload = request.state ? 1 : 0;
+        rulesetConfig.autoReload = request.state && true || false;
         saveRulesetConfig().then(( ) => {
             callback();
+            broadcastMessage({ autoReload: rulesetConfig.autoReload });
+        });
+        return true;
+
+    case 'setShowBlockedCount':
+        rulesetConfig.showBlockedCount = request.state && true || false;
+        if ( canShowBlockedCount ) {
+            dnr.setExtensionActionOptions({
+                displayActionCountAsBadgeText: rulesetConfig.showBlockedCount,
+            });
+        }
+        saveRulesetConfig().then(( ) => {
+            callback();
+            broadcastMessage({ showBlockedCount: rulesetConfig.showBlockedCount });
         });
         return true;
 
@@ -218,7 +249,7 @@ function onMessage(request, sender, callback) {
         ]).then(results => {
             callback({
                 level: results[0],
-                autoReload: rulesetConfig.autoReload === 1,
+                autoReload: rulesetConfig.autoReload,
                 hasOmnipotence: results[1],
                 hasGreatPowers: results[2],
                 rulesetDetails: results[3],
@@ -261,6 +292,21 @@ function onMessage(request, sender, callback) {
         });
         return true;
     }
+
+    case 'setTrustedSites':
+        setTrustedSites(request.hostnames).then(( ) => {
+            registerInjectables();
+            return Promise.all([
+                getDefaultFilteringMode(),
+                getTrustedSites(),
+            ]);
+        }).then(results => {
+            callback({
+                defaultFilteringMode: results[0],
+                trustedSites: Array.from(results[1]),
+            });
+        });
+        return true;
 
     default:
         break;
@@ -307,8 +353,10 @@ async function start() {
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest
     //   Firefox API does not support `dnr.setExtensionActionOptions`
-    if ( wakeupRun === false && dnr.setExtensionActionOptions ) {
-        dnr.setExtensionActionOptions({ displayActionCountAsBadgeText: true });
+    if ( wakeupRun === false && canShowBlockedCount ) {
+        dnr.setExtensionActionOptions({
+            displayActionCountAsBadgeText: rulesetConfig.showBlockedCount,
+        });
     }
 
     runtime.onMessage.addListener(onMessage);

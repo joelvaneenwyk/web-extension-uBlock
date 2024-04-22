@@ -483,6 +483,14 @@
     "message": "Haittaohjelmasuojaus, tietoturva",
     "description": "Filter lists section name"
   },
+  "3pGroupSocial": {
+    "message": "Sosiaaliset widgetit",
+    "description": "Filter lists section name"
+  },
+  "3pGroupCookies": {
+    "message": "Evästeilmoitukset",
+    "description": "Filter lists section name"
+  },
   "3pGroupAnnoyances": {
     "message": "Ärsykkeet",
     "description": "Filter lists section name"
@@ -527,20 +535,24 @@
     "message": "Verkkovirhe esti resurssin päivityksen.",
     "description": "used as a tooltip for error icon beside a list"
   },
-  "1pFormatHint": {
-    "message": "Yksi suodatin riviä kohden. Suodatin voi olla pelkkä osoite tai EasyList-yhteensopiva suodatin. Rivit, joiden alussa on <code>!</code>, ohitetaan.",
-    "description": "Short information about how to create custom filters"
-  },
   "1pTrustWarning": {
     "message": "Älä lisää suodattimia lähteistä, joihin et luota.",
     "description": "Warning against copy-pasting filters from random sources"
   },
+  "1pEnableMyFiltersLabel": {
+    "message": "Ota omat suodattimet käyttöön",
+    "description": "Label for the checkbox use to enable/disable 'My filters' list"
+  },
+  "1pTrustMyFiltersLabel": {
+    "message": "Allow custom filters requiring trust",
+    "description": "Label for the checkbox use to trust the content of 'My filters' list"
+  },
   "1pImport": {
-    "message": "Tuo ja lisää...",
+    "message": "Tuo ja lisää…",
     "description": "Button in the 'My filters' pane"
   },
   "1pExport": {
-    "message": "Vie",
+    "message": "Vie…",
     "description": "Button in the 'My filters' pane"
   },
   "1pExportFilename": {
@@ -584,7 +596,7 @@
     "description": ""
   },
   "rulesExport": {
-    "message": "Vie tiedostoon",
+    "message": "Vie tiedostoon…",
     "description": "Button in the 'My rules' pane"
   },
   "rulesDefaultFileName": {
@@ -592,7 +604,7 @@
     "description": "default file name to use"
   },
   "rulesHint": {
-    "message": "Lista dynaamisista suodatussäännöistäsi.",
+    "message": "Listaus dynaamisista suodatussäännöistä.",
     "description": "English: List of your dynamic filtering rules."
   },
   "rulesFormatHint": {
@@ -620,11 +632,11 @@
     "description": "A concise description of the 'Trusted sites' pane."
   },
   "whitelistImport": {
-    "message": "Tuo ja lisää",
+    "message": "Tuo ja lisää…",
     "description": "Button in the 'Trusted sites' pane"
   },
   "whitelistExport": {
-    "message": "Vie",
+    "message": "Vie…",
     "description": "Button in the 'Trusted sites' pane"
   },
   "whitelistExportFilename": {
@@ -1250,6 +1262,10 @@
   "toggleCosmeticFiltering": {
     "message": "Kytke kosmeettinen suodatus",
     "description": "Label for keyboard shortcut used to toggle cosmetic filtering"
+  },
+  "toggleJavascript": {
+    "message": "Kytke JavaScript",
+    "description": "Label for keyboard shortcut used to toggle no-scripting switch"
   },
   "relaxBlockingMode": {
     "message": "Kevennetty estotila",

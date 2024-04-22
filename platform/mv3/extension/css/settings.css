@@ -22,6 +22,14 @@ p {
     white-space: pre-line;
     }
 
+section > div {
+    padding: 0 var(--default-gap-xxsmall);
+    }
+
+#showBlockedCount:has(input[type="checkbox"][disabled]) {
+    opacity: 0.5;
+    }
+
 #defaultFilteringMode {
     display: grid;
     gap: 1em;
@@ -62,6 +70,16 @@ p {
     height: calc(60px / 2);
     pointer-events: none;
     width: calc(240px / 2);
+    }
+
+h3[data-i18n="filteringMode0Name"]::first-letter {
+    text-transform: capitalize;
+    }
+#trustedSites  {
+    box-sizing: border-box;
+    height: 6rem;
+    resize: vertical;
+    width: 100%;
     }
 
 #lists {

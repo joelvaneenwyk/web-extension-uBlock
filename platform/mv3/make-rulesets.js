@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    uBlock Origin - a comprehensive, efficient content blocker
     Copyright (C) 2022-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -110,7 +110,7 @@ const urlToFileName = url => {
         ;
 };
 
-const fetchList = (url, cacheDir) => {
+const fetchText = (url, cacheDir) => {
     return new Promise((resolve, reject) => {
         const fname = urlToFileName(url);
         fs.readFile(`${cacheDir}/${fname}`, { encoding: 'utf8' }).then(content => {
@@ -168,7 +168,7 @@ const requiredRedirectResources = new Set();
 
 /******************************************************************************/
 
-async function fetchAsset(assetDetails) {
+async function fetchList(assetDetails) {
     // Remember fetched URLs
     const fetchedURLs = new Set();
 
@@ -190,7 +190,7 @@ async function fetchAsset(assetDetails) {
                 newParts.push(`!#trusted on ${assetDetails.secret}`);
             }
             newParts.push(
-                fetchList(part.url, cacheDir).then(details => {
+                fetchText(part.url, cacheDir).then(details => {
                     const { url } = details;
                     const content = details.content.trim();
                     if ( typeof content === 'string' && content !== '' ) {
@@ -227,10 +227,13 @@ const isRegex = rule =>
     rule.condition !== undefined &&
     rule.condition.regexFilter !== undefined;
 
-const isRedirect = rule =>
-    rule.action !== undefined &&
-    rule.action.type === 'redirect' &&
-    rule.action.redirect.extensionPath !== undefined;
+const isRedirect = rule => {
+    if ( rule.action === undefined ) { return false; }
+    if ( rule.action.type !== 'redirect' ) { return false; }
+    if ( rule.action.redirect?.extensionPath !== undefined ) { return true; }
+    if ( rule.action.redirect?.transform?.path !== undefined ) { return true; }
+    return false;
+};
 
 const isModifyHeaders = rule =>
     rule.action !== undefined &&
@@ -295,9 +298,15 @@ function pruneHostnameArray(hostnames) {
     return assemble(rootMap, '', []);
 }
 
-/******************************************************************************/
+/*******************************************************************************
+ * 
+ * For large rulesets, one rule per line for compromise between size and
+ * readability. This also means that the number of lines in resulting file
+ * representative of the number of rules in the ruleset.
+ * 
+ * */
 
-async function processNetworkFilters(assetDetails, network) {
+function toJSONRuleset(ruleset) {
     const replacer = (k, v) => {
         if ( k.startsWith('_') ) { return; }
         if ( Array.isArray(v) ) {
@@ -312,7 +321,17 @@ async function processNetworkFilters(assetDetails, network) {
         }
         return v;
     };
+    const indent = ruleset.length > 10 ? undefined : 1;
+    const out = [];
+    for ( const rule of ruleset ) {
+        out.push(JSON.stringify(rule, replacer, indent));
+    }
+    return `[\n${out.join(',\n')}\n]\n`;
+}
 
+/******************************************************************************/
+
+async function processNetworkFilters(assetDetails, network) {
     const { ruleset: rules } = network;
     log(`Input filter count: ${network.filterCount}`);
     log(`\tAccepted filter count: ${network.acceptedFilterCount}`);
@@ -351,6 +370,14 @@ async function processNetworkFilters(assetDetails, network) {
         }
     }
 
+    // Add native DNR ruleset if present
+    if ( assetDetails.dnrURL ) {
+        const result = await fetchText(assetDetails.dnrURL, cacheDir);
+        for ( const rule of JSON.parse(result.content) ) {
+            rules.push(rule);
+        }
+    }
+
     const plainGood = rules.filter(rule => isGood(rule) && isRegex(rule) === false);
     log(`\tPlain good: ${plainGood.length}`);
     log(plainGood
@@ -368,6 +395,7 @@ async function processNetworkFilters(assetDetails, network) {
         isRedirect(rule)
     );
     redirects.forEach(rule => {
+        if ( rule.action.redirect.extensionPath === undefined ) { return; }
         requiredRedirectResources.add(
             rule.action.redirect.extensionPath.replace(/^\/+/, '')
         );
@@ -394,38 +422,36 @@ async function processNetworkFilters(assetDetails, network) {
     log(`\tUnsupported: ${bad.length}`);
     log(bad.map(rule => rule._error.map(v => `\t\t${v}`)).join('\n'), true);
 
-    const jsonIndent = platform !== 'firefox' ? 1 : undefined;
-
     writeFile(
         `${rulesetDir}/main/${assetDetails.id}.json`,
-        `${JSON.stringify(plainGood, replacer, jsonIndent)}\n`
+        toJSONRuleset(plainGood)
     );
 
     if ( regexes.length !== 0 ) {
         writeFile(
             `${rulesetDir}/regex/${assetDetails.id}.json`,
-            `${JSON.stringify(regexes, replacer, 1)}\n`
+            toJSONRuleset(regexes)
         );
     }
 
     if ( removeparamsGood.length !== 0 ) {
         writeFile(
             `${rulesetDir}/removeparam/${assetDetails.id}.json`,
-            `${JSON.stringify(removeparamsGood, replacer, 1)}\n`
+            toJSONRuleset(removeparamsGood)
         );
     }
 
     if ( redirects.length !== 0 ) {
         writeFile(
             `${rulesetDir}/redirect/${assetDetails.id}.json`,
-            `${JSON.stringify(redirects, replacer, 1)}\n`
+            toJSONRuleset(redirects)
         );
     }
 
     if ( modifyHeaders.length !== 0 ) {
         writeFile(
             `${rulesetDir}/modify-headers/${assetDetails.id}.json`,
-            `${JSON.stringify(modifyHeaders, replacer, 1)}\n`
+            toJSONRuleset(modifyHeaders)
         );
     }
 
@@ -965,9 +991,13 @@ async function rulesetFromURLs(assetDetails) {
     log(`Listset for '${assetDetails.id}':`);
 
     if ( assetDetails.text === undefined ) {
-        const text = await fetchAsset(assetDetails);
+        const text = await fetchList(assetDetails);
         if ( text === '' ) { return; }
         assetDetails.text = text;
+    }
+
+    if ( Array.isArray(assetDetails.filters) ) {
+        assetDetails.text += '\n' + assetDetails.filters.join('\n');
     }
 
     const extensionPaths = [];
@@ -1126,10 +1156,10 @@ async function main() {
     // Assemble all default lists as the default ruleset
     const contentURLs = [
         'https://ublockorigin.github.io/uAssets/filters/filters.min.txt',
-        'https://ublockorigin.github.io/uAssets/filters/badware.txt',
+        'https://ublockorigin.github.io/uAssets/filters/badware.min.txt',
         'https://ublockorigin.github.io/uAssets/filters/privacy.min.txt',
         'https://ublockorigin.github.io/uAssets/filters/unbreak.min.txt',
-        'https://ublockorigin.github.io/uAssets/filters/quick-fixes.txt',
+        'https://ublockorigin.github.io/uAssets/filters/quick-fixes.min.txt',
         'https://ublockorigin.github.io/uAssets/filters/ubol-filters.txt',
         'https://ublockorigin.github.io/uAssets/thirdparties/easylist.txt',
         'https://ublockorigin.github.io/uAssets/thirdparties/easyprivacy.txt',
@@ -1141,7 +1171,10 @@ async function main() {
         enabled: true,
         secret,
         urls: contentURLs,
+        dnrURL: 'https://ublockorigin.github.io/uAssets/dnr/default.json',
         homeURL: 'https://github.com/uBlockOrigin/uAssets',
+        filters: [
+        ],
     });
 
     // Regional rulesets
@@ -1192,7 +1225,6 @@ async function main() {
     for ( const id of handpicked ) {
         const asset = assets[id];
         if ( asset.content !== 'filters' ) { continue; }
-
         const contentURL = Array.isArray(asset.contentURL)
             ? asset.contentURL[0]
             : asset.contentURL;
@@ -1220,45 +1252,45 @@ async function main() {
     });
     await rulesetFromURLs({
         id: 'annoyances-overlays',
-        name: 'AdGuard/uBO – Overlays',
+        name: 'EasyList/uBO – Overlay Notices',
         group: 'annoyances',
         enabled: false,
         secret,
         urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/19.txt',
+            'https://ublockorigin.github.io/uAssets/thirdparties/easylist-newsletters.txt',
             'https://ublockorigin.github.io/uAssets/filters/annoyances-others.txt',
         ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+        homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
     });
     await rulesetFromURLs({
         id: 'annoyances-social',
-        name: 'AdGuard – Social Media',
+        name: 'EasyList – Social Widgets',
         group: 'annoyances',
         enabled: false,
         urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/4.txt',
+            'https://ublockorigin.github.io/uAssets/thirdparties/easylist-social.txt',
         ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+        homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
     });
     await rulesetFromURLs({
         id: 'annoyances-widgets',
-        name: 'AdGuard – Widgets',
+        name: 'EasyList – Chat Widgets',
         group: 'annoyances',
         enabled: false,
         urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/22.txt',
+            'https://ublockorigin.github.io/uAssets/thirdparties/easylist-chat.txt',
         ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+        homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
     });
     await rulesetFromURLs({
         id: 'annoyances-others',
-        name: 'AdGuard – Other Annoyances',
+        name: 'EasyList – Other Annoyances',
         group: 'annoyances',
         enabled: false,
         urls: [
-            'https://filters.adtidy.org/extension/ublock/filters/21.txt',
+            'https://ublockorigin.github.io/uAssets/thirdparties/easylist-annoyances.txt'
         ],
-        homeURL: 'https://github.com/AdguardTeam/AdguardFilters#adguard-filters',
+        homeURL: 'https://github.com/easylist/easylist#fanboy-lists',
     });
 
     // Handpicked rulesets from abroad

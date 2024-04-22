@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    uBlock Origin - a comprehensive, efficient content blocker
     Copyright (C) 2014-2015 The uBlock Origin authors
     Copyright (C) 2014-present Raymond Hill
 
@@ -22,18 +22,13 @@
 
 // For background page or non-background pages
 
-/* global browser */
-
-'use strict';
-
-/******************************************************************************/
 /******************************************************************************/
 
 vAPI.T0 = Date.now();
 
-/******************************************************************************/
-
 vAPI.setTimeout = vAPI.setTimeout || self.setTimeout.bind(self);
+
+/******************************************************************************/
 
 vAPI.defer = {
     create(callback) {
@@ -155,6 +150,9 @@ vAPI.webextFlavor = {
     }
 };
 
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1858743
+//   Add support for native `:has()` for Firefox 121+
+
 (( ) => {
     const ua = navigator.userAgent;
     const flavor = vAPI.webextFlavor;
@@ -175,35 +173,24 @@ vAPI.webextFlavor = {
         soup.add('mobile');
     }
 
-    // Asynchronous
-    if (
-        browser instanceof Object &&
-        typeof browser.runtime.getBrowserInfo === 'function'
-    ) {
-        browser.runtime.getBrowserInfo().then(info => {
-            flavor.major = parseInt(info.version, 10) || flavor.major;
-            soup.add(info.vendor.toLowerCase())
-                .add(info.name.toLowerCase());
-            dispatch();
-        });
-        if ( browser.runtime.getURL('').startsWith('moz-extension://') ) {
-            soup.add('firefox')
-                .add('user_stylesheet')
-                .add('html_filtering');
-            flavor.major = 91;
-        }
-        return;
+    if ( CSS.supports('selector(a:has(b))') ) {
+        soup.add('native_css_has');
     }
 
-    // Synchronous -- order of tests is important
-    const match = /\bChrom(?:e|ium)\/([\d.]+)/.exec(ua);
-    if ( match !== null ) {
-        soup.add('chromium')
-            .add('user_stylesheet');
-        flavor.major = parseInt(match[1], 10) || 0;
-        if ( flavor.major >= 105 ) {
-            soup.add('native_css_has');
+    // Order of tests is important
+    if ( browser.runtime.getURL('').startsWith('moz-extension://') ) {
+        soup.add('firefox')
+            .add('user_stylesheet')
+            .add('html_filtering');
+        const match = /Firefox\/(\d+)/.exec(ua);
+        flavor.major = match && parseInt(match[1], 10) || 115;
+    } else {
+        const match = /\bChrom(?:e|ium)\/(\d+)/.exec(ua);
+        if ( match !== null ) {
+            soup.add('chromium')
+                .add('user_stylesheet');
         }
+        flavor.major = match && parseInt(match[1], 10) || 120;
     }
 
     // Don't starve potential listeners

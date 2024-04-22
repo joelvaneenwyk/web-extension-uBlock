@@ -143,12 +143,20 @@
     "message": "Interneti põhjalikum filtreerimine ja enda valitud filtreerimisloenditega täpsem ning üldisem filtreerimine.\n\nVajab kõikide veebilehtede andmete lugemise ja muutmise üldist luba.\n\nÜldine ja põhjalikum filtreerimine võib koormata veebilehe ressursse tavapärasest rohkem.",
     "description": "This describes the 'complete' filtering mode"
   },
+  "noFilteringModeDescription": {
+    "message": "Hostinimede loend, kus filtreerimine keelatakse",
+    "description": "A short description for the editable field which lists trusted sites"
+  },
   "behaviorSectionLabel": {
     "message": "Käitumine",
     "description": "The header text for the 'Behavior' section"
   },
   "autoReloadLabel": {
     "message": "Leht laadib ise uuesti filtreerimisrežiimi muutmisel",
+    "description": "Label for a checkbox in the options page"
+  },
+  "showBlockedCountLabel": {
+    "message": "Kuva tööriistariba ikoonil blokeeritud elementide arv",
     "description": "Label for a checkbox in the options page"
   }
 }

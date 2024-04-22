@@ -17,14 +17,14 @@ Kuid uBOL võimaldab *selgesõnaliselt* anda täpsemaid lubasid teie valitud vee
 
 Veebilehele täpsustatud lubade andmiseks ava hüpikpaneel ja vali põhjalikum filtreerimisrežiim, näiteks Optimaalne või Põhjalik.
 
-The browser will then warn you about the effects of granting the additional permissions requested by the extension on the current site, and you will have to tell the browser whether you accept or decline the request.
+Seejärel hoiatab veebilehitseja praeguse veebilehe laienduse taotletud täiendavate õiguste andmise tagajärgede eest ja peate veebilehitsejale ütlema, kas nõustute taotlusega või keeldute sellest.
 
-If you accept uBOL's request for additional permissions on the current site, it will be able to better filter content for the current site.
+Kui nõustute uBOLi taotlusega täiendavate õiguste saamiseks praegusel veebilehel, saab see praeguse veebilehe sisu paremini filtreerida.
 
-You can set the default filtering mode from uBOL's options page. Kui määrate optimaalse või põhjaliku režiimi tavaliseks, peate andma uBOLile loa kõikide veebilehtede andmete lugemiseks ja muutmiseks.
+Fltreerimise tavarežiimi saate määrata uBOLi valikute lehelt. Kui määrate optimaalse või põhjaliku režiimi tavaliseks, peate andma uBOLile loa kõikide veebilehtede andmete lugemiseks ja muutmiseks.
 
-Keep in mind this is still a work in progress, with these end goals:
+Pidage meeles, et see on veel arendamisel, mille lõppeesmärgid on järgmised:
 
-- No broad host permissions at install time -- extended permissions are granted explicitly by the user on a per-site basis.
+- Paigaldamise ajal laialdased hostiõigused puuduvad – kasutaja annab laiendatud load selgesõnaliselt ja veebilehe põhiselt.
 
-- Entirely declarative for reliability and CPU/memory efficiency.
+- Täiesti deklaratiivne töökindluse ja protsessori/mälu tõhususe osas.

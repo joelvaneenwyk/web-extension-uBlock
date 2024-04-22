@@ -76,7 +76,7 @@
     "description": "Message to be read by screen readers"
   },
   "popupPowerSwitchInfo2": {
-    "message": "Klikit evit enaouiñ uBlock₀ war al lec'hienn-mañ.",
+    "message": "Enaouiñ uBlock₀ war al lec'hienn-mañ.",
     "description": "Message to be read by screen readers"
   },
   "popupBlockedRequestPrompt": {
@@ -136,11 +136,11 @@
     "description": "Tooltip for the no-popups per-site switch"
   },
   "popupTipNoPopups1": {
-    "message": "Klikit evit stankañ an holl brenestroù pop-up war al lec'hienn-mañ",
+    "message": "Stankañ an holl brenestroù pop-up war al lec'hienn-mañ",
     "description": "Tooltip for the no-popups per-site switch"
   },
   "popupTipNoPopups2": {
-    "message": "Klikit evit aotren an holl brenestroù pop-up war al lec'hienn-mañ",
+    "message": "Aotren an holl brenestroù pop-up war al lec'hienn-mañ",
     "description": "Tooltip for the no-popups per-site switch"
   },
   "popupTipNoLargeMedia": {
@@ -148,11 +148,11 @@
     "description": "Tooltip for the no-large-media per-site switch"
   },
   "popupTipNoLargeMedia1": {
-    "message": "Klikit evit stankañ an elfennoù media pounner war al lec'hienn-mañ",
+    "message": "Stankañ an elfennoù media pounner war al lec'hienn-mañ",
     "description": "Tooltip for the no-large-media per-site switch"
   },
   "popupTipNoLargeMedia2": {
-    "message": "Klikit evit aotren an elfennoù media pounner en-dro war al lec'hienn-mañ",
+    "message": "Aotren an elfennoù media pounner en-dro war al lec'hienn-mañ",
     "description": "Tooltip for the no-large-media per-site switch"
   },
   "popupTipNoCosmeticFiltering": {
@@ -160,31 +160,31 @@
     "description": "Tooltip for the no-cosmetic-filtering per-site switch"
   },
   "popupTipNoCosmeticFiltering1": {
-    "message": "Klikit evit lazhañ ar silañ kenedel war al lec'hienn-mañ",
+    "message": "Lazhañ ar silañ kenedel war al lec'hienn-mañ",
     "description": "Tooltip for the no-cosmetic-filtering per-site switch"
   },
   "popupTipNoCosmeticFiltering2": {
-    "message": "Klikit evit enaouiñ ar silañ kenedel war al lec'hienn-mañ",
+    "message": "Enaouiñ ar silañ kenedel war al lec'hienn-mañ",
     "description": "Tooltip for the no-cosmetic-filtering per-site switch"
   },
   "popupTipNoRemoteFonts": {
-    "message": "Lazhañ/enaouiñ evit stankañ an nodrezhioù diavaez war al lec'hienn-mañ",
+    "message": "Aotren/stankañ ar polisoù diavaez war al lec'hienn-mañ",
     "description": "Tooltip for the no-remote-fonts per-site switch"
   },
   "popupTipNoRemoteFonts1": {
-    "message": "Klikit evit stankañ an nodrezhioù diavaez war al lec'hienn-mañ",
+    "message": "Stankañ ar polisoù diavaez war al lec'hienn-mañ",
     "description": "Tooltip for the no-remote-fonts per-site switch"
   },
   "popupTipNoRemoteFonts2": {
-    "message": "Klikit evit aotren an nodrezhioù diavaez war al lec'hienn-mañ",
+    "message": "Aotren ar polisoù diavaez war al lec'hienn-mañ",
     "description": "Tooltip for the no-remote-fonts per-site switch"
   },
   "popupTipNoScripting1": {
-    "message": "Klikit evit diweredekaat JavaScript war al lec'hienn-mañ",
+    "message": "Diweredekaat JavaScript war al lec'hienn-mañ",
     "description": "Tooltip for the no-scripting per-site switch"
   },
   "popupTipNoScripting2": {
-    "message": "Klikit evit gweredekaat JavaScript war al lec'hienn-mañ en-dro",
+    "message": "Gweredekaat JavaScript war al lec'hienn-mañ en-dro",
     "description": "Tooltip for the no-scripting per-site switch"
   },
   "popupNoPopups_v2": {
@@ -200,7 +200,7 @@
     "description": "Caption for the no-cosmetic-filtering per-site switch"
   },
   "popupNoRemoteFonts_v2": {
-    "message": "Nodrezhioù diavaez",
+    "message": "Polisoù diavaez",
     "description": "Caption for the no-remote-fonts per-site switch"
   },
   "popupNoScripting_v2": {
@@ -224,11 +224,11 @@
     "description": "Tooltip when hovering the top-most cell of the local-rules column."
   },
   "popupTipSaveRules": {
-    "message": "Klikit evit lakaat ho kemmoù da dalvezout.",
+    "message": "Lakaat ho kemmoù da dalvezout.",
     "description": "Tooltip when hovering over the padlock in the dynamic filtering pane."
   },
   "popupTipRevertRules": {
-    "message": "Klikit evit nullañ ar c'hemmoù ho peus graet.",
+    "message": "Nullañ ar c'hemmoù ho peus graet.",
     "description": "Tooltip when hovering over the eraser in the dynamic filtering pane."
   },
   "popupAnyRulePrompt": {
@@ -356,7 +356,7 @@
     "description": "Checkbox to let user access advanced, technical features"
   },
   "settingsPrefetchingDisabledPrompt": {
-    "message": "Disable pre-fetching (to prevent any connection for blocked network requests)",
+    "message": "Diweredekaat ar \"rak-lenn\", pe diougan an oberoù war ar rouedad (evit ma ne gennaskfe ket ar rekedoù rouedad stanket)",
     "description": "English: "
   },
   "settingsHyperlinkAuditingDisabledPrompt": {
@@ -372,7 +372,7 @@
     "description": ""
   },
   "settingPerSiteSwitchGroupSynopsis": {
-    "message": "These default behaviors can be overridden on a per-site basis",
+    "message": "Gallout a reer erlec'hiañ an emzalc'hioù-se dre ziouer e lec'hiennoù resis",
     "description": ""
   },
   "settingsNoCosmeticFilteringPrompt": {
@@ -384,7 +384,7 @@
     "description": ""
   },
   "settingsNoRemoteFontsPrompt": {
-    "message": "Stankañ an nodrezhioù diavaez",
+    "message": "Stankañ ar polisoù diavaez",
     "description": ""
   },
   "settingsNoScriptingPrompt": {
@@ -396,7 +396,7 @@
     "description": "background information: https://github.com/gorhill/uBlock/issues/3150"
   },
   "settingsUncloakCnamePrompt": {
-    "message": "Uncloak canonical names",
+    "message": "Diskouez an anvioù gwir (CNAME)",
     "description": "background information: https://github.com/uBlockOrigin/uBlock-issues/issues/1513"
   },
   "settingsAdvanced": {
@@ -428,7 +428,7 @@
     "description": "Appears aside each filter list in the _3rd-party filters_ pane"
   },
   "3pAutoUpdatePrompt1": {
-    "message": "Hizivaat ent-emgefreek rolloù ar siloù",
+    "message": "Hizivaat ar rolloù siloù ent-emgefreek",
     "description": "A checkbox in the _3rd-party filters_ pane"
   },
   "3pUpdateNow": {
@@ -444,7 +444,7 @@
     "description": "English: Parse and enforce Adblock+ element hiding filters."
   },
   "3pParseAllABPHideFiltersInfo": {
-    "message": "Cosmetic filters serve to hide elements in a web page which are deemed to be a visual nuisance, and which can't be blocked by the network request-based filtering engines.",
+    "message": "Ar siloù kenedel a servij da guzhat elfennoù ur bajenn web a c'hallfe saotrañ ar gweled ha ne c'hallont ket bezañ stanket gant ar siloù rouedad diazezet war ar rekedoù.",
     "description": "Describes the purpose of the 'Parse and enforce cosmetic filters' feature."
   },
   "3pIgnoreGenericCosmeticFilters": {
@@ -452,7 +452,7 @@
     "description": "This will cause uBO to ignore all generic cosmetic filters."
   },
   "3pIgnoreGenericCosmeticFiltersInfo": {
-    "message": "Generic cosmetic filters are those cosmetic filters which are meant to apply on all web sites. Enabling this option will eliminate the memory and CPU overhead added to web pages as a result of handling generic cosmetic filters.\n\nIt is recommended to enable this option on less powerful devices.",
+    "message": "Ar siloù kenedel hollek a zo siloù kenedel bet savet evit bezañ implijet war an holl lec'hiennoù. Ma'z enaouit an dibarzh-mañ e vo implijer nebeutoc'h a vevor hag ar reizhiad korvoiñ (CPU) war al lec'hiennoù-se.\n\nErbedet eo deoc'h enaouiñ an dibarzh-mañ m'emaoc'h oc'h ober gant un ardivink re zic'halloudek.",
     "description": "Describes the purpose of the 'Ignore generic cosmetic filters' feature."
   },
   "3pSuspendUntilListsAreLoaded": {
@@ -483,12 +483,20 @@
     "message": "Gwarez a-enep ar malware ha surentez",
     "description": "Filter lists section name"
   },
+  "3pGroupSocial": {
+    "message": "Social widgets",
+    "description": "Filter lists section name"
+  },
+  "3pGroupCookies": {
+    "message": "Cookie notices",
+    "description": "Filter lists section name"
+  },
   "3pGroupAnnoyances": {
     "message": "Saotradurioù",
     "description": "Filter lists section name"
   },
   "3pGroupMultipurpose": {
-    "message": "Implijoù a bep seurt",
+    "message": "Siloù lies-implij",
     "description": "Filter lists section name"
   },
   "3pGroupRegions": {
@@ -504,7 +512,7 @@
     "description": "The label for the checkbox used to import external filter lists"
   },
   "3pExternalListsHint": {
-    "message": "Un URL dre linenn. Didrouz e reor fae ouzh an URLoù direizh.",
+    "message": "Un URL dre linenn. Graet e vo fae ouzh an URLoù direizh hep kemenn deoc'h.",
     "description": "Short information about how to use the textarea to import external filter lists by URL"
   },
   "3pExternalListObsolete": {
@@ -512,7 +520,7 @@
     "description": "used as a tooltip for the out-of-date icon beside a list"
   },
   "3pViewContent": {
-    "message": "gwelet an danvezioù",
+    "message": "gwelet an endalc'had",
     "description": "used as a tooltip for eye icon beside a list"
   },
   "3pLastUpdate": {
@@ -527,13 +535,17 @@
     "message": "Ur fazi rouedad en deus miret an danvez da vezañ hizivaet.",
     "description": "used as a tooltip for error icon beside a list"
   },
-  "1pFormatHint": {
-    "message": "Ur sil dre linenn. Ur sil a c'hall bezañ un anv ostiz hepken pe ur sil hag a glot gant EasyList.\nAl linennoù a grog gant <code>!</code> a vo dilezet.",
-    "description": "Short information about how to create custom filters"
-  },
   "1pTrustWarning": {
     "message": "Arabat ouzhpennañ siloù a zeu diouzh mammennoù douetus.",
     "description": "Warning against copy-pasting filters from random sources"
+  },
+  "1pEnableMyFiltersLabel": {
+    "message": "Gweredekaat ma siloù personelaet",
+    "description": "Label for the checkbox use to enable/disable 'My filters' list"
+  },
+  "1pTrustMyFiltersLabel": {
+    "message": "Kaout fiziañs er siloù personelaet",
+    "description": "Label for the checkbox use to trust the content of 'My filters' list"
   },
   "1pImport": {
     "message": "Enporzhiañ hag ouzhpennañ",
@@ -696,7 +708,7 @@
     "description": "Tooltip for the row filterer button in the logger page"
   },
   "logFilterPrompt": {
-    "message": "Silañ danvez an deizlevr",
+    "message": "Silañ endalc'had an deizlevr",
     "description": "Placeholder string for logger output filtering input field"
   },
   "loggerRowFiltererBuiltinTip": {
@@ -784,7 +796,7 @@
     "description": "Small header to identify the static filtering section"
   },
   "loggerStaticFilteringSentence": {
-    "message": "{{action}} network requests of {{type}} {{br}}which URL address matches {{url}} {{br}}and which originates {{origin}},{{br}}{{importance}} there is a matching exception filter.",
+    "message": "{{action}} ar rekedoù rouedad eus ar seurt {{type}} {{br}}da neuze an URL a glot gant {{url}} {{br}}hag a zeu eus {{origin}},{{br}}{{importance}} bout zo ur sil nemedennoù hag a glot gantañ.",
     "description": "Used in the static filtering wizard"
   },
   "loggerStaticFilteringSentencePartBlock": {
@@ -828,7 +840,7 @@
     "description": "Message to show when a filter cannot be found in any filter lists"
   },
   "loggerSettingDiscardPrompt": {
-    "message": "Logger entries which do not fulfill all three conditions below will be automatically discarded:",
+    "message": "Enmonedoù an deizlevr ha ne glot gant an tri diviz zo amañ dindan a vo skarzhet ent-emgefreek:",
     "description": "Logger setting: A sentence to describe the purpose of the settings below"
   },
   "loggerSettingPerEntryMaxAge": {
@@ -908,7 +920,7 @@
     "description": "Header of 'Questions and support' section in Support pane"
   },
   "supportS2P1": {
-    "message": "Er subreddit <code>/r/uBlockOrigin</code> e c'hallit kavout respontoù d'ho koulennoù hag a bep seurt skoazell all.",
+    "message": "Er subreddit <code>/r/uBlockOrigin</code> e c'hallit kavout respontoù d'ho koulennoù hag a bep seurt skoazelloù all.",
     "description": "First paragraph of 'Questions and support' section in Support pane"
   },
   "supportS3H": {
@@ -952,7 +964,7 @@
     "description": "Header of 'Report a filter issue' section in Support pane"
   },
   "supportS6P1S1": {
-    "message": "Evit nompas sammañ ar genlabourerien a-youl vat gant meur a zanevell heñvel, gwiriit ma n'eo ket bet danevellet ho kudenn c'hoazh mar plij.",
+    "message": "Evit nompas sammañ ar genlabourerien a-youl vat gant meur a zanevell heñvel, gwiriit ma n'eo ket bet danevellet ho kudenn en ar-raok mar plij.",
     "description": "A paragraph in the filter issue reporter section"
   },
   "supportS6P2S1": {
@@ -1068,7 +1080,7 @@
     "description": "English: Reset to default settings..."
   },
   "aboutRestoreDataConfirm": {
-    "message": "All your settings will be overwritten using data backed up on {{time}}, and uBlock₀ will restart.\n\nOverwrite all existing settings using backed up data?",
+    "message": "Hoc'h arventennoù a vo erlec'hiet gant ar roadennoù bet gwaredet d'an/ar {{time}}, goude-se ec'h adloc'ho uBlock₀.\n\nKenderc'hel gant an oberiadenn-se?",
     "description": "Message asking user to confirm restore"
   },
   "aboutRestoreDataError": {
@@ -1250,6 +1262,10 @@
   "toggleCosmeticFiltering": {
     "message": "Enaouiñ ar silañ kenedel",
     "description": "Label for keyboard shortcut used to toggle cosmetic filtering"
+  },
+  "toggleJavascript": {
+    "message": "Enaouiñ/lazhañ JavaScript",
+    "description": "Label for keyboard shortcut used to toggle no-scripting switch"
   },
   "relaxBlockingMode": {
     "message": "Distanañ ar mod stankañ",
