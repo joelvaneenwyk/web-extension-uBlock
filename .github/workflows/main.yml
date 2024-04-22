@@ -1,35 +1,40 @@
 name: uBO release
 
 on:
-  create:
-    branches: master
+  push:
+    branches: [main, develop, feature/**, release/**]
+  workflow_call:
 
 permissions:
   contents: read
 
-# I used the following project as template to get started:
-# https://github.com/dessant/search-by-image/blob/master/.github/workflows/ci.yml
-
 jobs:
   build:
     permissions:
-      contents: write # for creating release
-    name: Build packages
+      # for creating release
+      contents: write
+
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    name: Build Packages
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
+          fetch-depth: 0
+          submodules: recursive
+
       - name: Clone uAssets
         run: |
           tools/pull-assets.sh
+
       # https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
       - name: Get release information
         id: release_info
         run: |
-          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+          echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_STATE
+
       - name: Assemble release notes
         run: |
           > release.body.txt
@@ -52,6 +57,7 @@ jobs:
           tools/make-firefox.sh ${{ steps.release_info.outputs.VERSION }}
           tools/make-thunderbird.sh ${{ steps.release_info.outputs.VERSION }}
           tools/make-npm.sh ${{ steps.release_info.outputs.VERSION }}
+
       - name: Upload Chromium package
         uses: actions/upload-release-asset@v1
         env:
@@ -61,6 +67,7 @@ jobs:
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.chromium.zip
           asset_name: uBlock0_${{ steps.release_info.outputs.VERSION }}.chromium.zip
           asset_content_type: application/octet-stream
+
       - name: Upload Firefox package
         uses: actions/upload-release-asset@v1
         env:
@@ -70,6 +77,7 @@ jobs:
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.firefox.xpi
           asset_name: uBlock0_${{ steps.release_info.outputs.VERSION }}.firefox.xpi
           asset_content_type: application/octet-stream
+
       - name: Upload Thunderbird package
         uses: actions/upload-release-asset@v1
         env:
@@ -79,6 +87,7 @@ jobs:
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.thunderbird.xpi
           asset_name: uBlock0_${{ steps.release_info.outputs.VERSION }}.thunderbird.xpi
           asset_content_type: application/octet-stream
+
       - name: Upload NodeJS package
         uses: actions/upload-release-asset@v1
         env:
