@@ -1,7 +1,7 @@
 # https://stackoverflow.com/a/6273809
 run_options := $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: all clean cleanassets test lint chromium opera firefox npm dig mv3 mv3-quick \
+.PHONY: all clean cleanassets test lint chromium opera firefox npm mv3 mv3-quick \
 	compare maxcost medcost mincost modifiers record wasm
 
 sources := $(wildcard assets/* assets/*/* dist/version src/* src/*/* src/*/*/* src/*/*/*/*)
@@ -35,25 +35,25 @@ dist/build/uBlock0.npm: tools/make-nodejs.sh $(sources) $(platform) $(assets)
 npm: dist/build/uBlock0.npm
 
 lint: npm
-	cd dist/build/uBlock0.npm && npm run lint
+	cd dist/build/uBlock0.yarn && yarn lint
 
 test: npm
-	cd dist/build/uBlock0.npm && npm run test
+	cd dist/build/uBlock0.yarn && yarn test
 
 test-full-battery: npm
-	cd dist/build/uBlock0.npm && npm run test-full-battery
+	cd dist/build/uBlock0.yarn && yarn test-full-battery
 
 check-leaks: npm
-	cd dist/build/uBlock0.npm && npm run check-leaks
+	cd dist/build/uBlock0.yarn && yarn check-leaks
 
 dist/build/uBlock0.dig: tools/make-nodejs.sh $(sources) $(platform) $(assets)
 	tools/make-dig.sh
 
 dig: dist/build/uBlock0.dig
-	cd dist/build/uBlock0.dig && npm install
+	cd dist/build/uBlock0.dig && yarn install
 
 dig-snfe: dig
-	cd dist/build/uBlock0.dig && npm run snfe $(run_options)
+	cd dist/build/uBlock0.dig && yarn snfe $(run_options)
 
 mv3-chromium: tools/make-mv3.sh $(sources) $(platform)
 	tools/make-mv3.sh chromium

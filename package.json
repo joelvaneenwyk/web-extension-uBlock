@@ -1,0 +1,20 @@
+{
+  "name": "web-extension-ublock",
+  "version": "1.0.0",
+  "description": "uBlock Origin web extension",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "platform/dig",
+    "platform/mv3",
+    "platform/npm"
+  ],
+  "dependencies": {
+    "@gorhill/ubo-core": "workspace:*",
+    "@gorhill/ubo-dig": "workspace:*",
+    "@gorhill/ubo-mv3": "workspace:*"
+  },
+  "author": "",
+  "license": "ISC",
+  "packageManager": "yarn@4.1.1+sha256.f3cc0eda8e5560e529c7147565b30faa43b4e472d90e8634d7134a37c7f59781"
+}
