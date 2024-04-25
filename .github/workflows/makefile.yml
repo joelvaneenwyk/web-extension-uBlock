@@ -3,6 +3,8 @@ name: Makefile CI
 on:
   push:
     branches: [main, develop, feature/**, release/**]
+  pull_request:
+    branches-ignore: [main, develop, feature/**, release/**]
   workflow_call:
 
 jobs:
@@ -15,9 +17,6 @@ jobs:
           persist-credentials: true
           fetch-depth: 0
           submodules: recursive
-
-      - name: configure
-        run: ./configure
 
       - name: Install dependencies
         run: make

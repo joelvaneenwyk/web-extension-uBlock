@@ -3,6 +3,8 @@ name: uBO release
 on:
   push:
     branches: [main, develop, feature/**, release/**]
+  pull_request:
+    branches-ignore: [main, develop, feature/**, release/**]
   workflow_call:
 
 permissions:
@@ -61,7 +63,7 @@ jobs:
       - name: Upload Chromium package
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.chromium.zip
@@ -71,7 +73,7 @@ jobs:
       - name: Upload Firefox package
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.firefox.xpi
@@ -81,7 +83,7 @@ jobs:
       - name: Upload Thunderbird package
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.thunderbird.xpi
@@ -91,7 +93,7 @@ jobs:
       - name: Upload NodeJS package
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: dist/build/uBlock0_${{ steps.release_info.outputs.VERSION }}.npm.tgz
