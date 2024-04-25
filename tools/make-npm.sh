@@ -34,16 +34,12 @@ else
     echo "*** uBlock0.npm: Creating plain package..."
     tarballname="uBlock0.npm.tgz"
 fi
-rm -f yarn.lock
-cp "$SOURCE_ROOT/yarn.lock" ./
+rm -f ./yarn.lock
+touch ./yarn.lock
+ln -sf "$TMPDIR/node_modules" "./node_modules"
 corepack use yarn
+yarn install --no-immutable
 yarn build
 yarn pack --out "../$tarballname"
-
-ln -sf "$TMPDIR/node_modules" "./node_modules"
-if [ -z "$GITHUB_ACTIONS" ]; then
-    yarn install
-fi
-cd -
 
 echo "*** uBlock0.npm: Package done."
