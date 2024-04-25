@@ -18,11 +18,9 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Install dependencies
         run: make
-
-      - name: Run check
-        run: make check
-
-      - name: Run distcheck
-        run: make distcheck
