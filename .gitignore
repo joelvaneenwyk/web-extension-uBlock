@@ -1,8 +1,17 @@
-*.bak
-*.pem
+#
+# uBlock
+#
+
 /dist/build/
 /tmp/
 node_modules/
 .yarn/
+
+*.bak
+*.pem
 .pnp.*
+crowdin.yml
+
 /*.tgz
+/*.zip
+/*.log
