@@ -2,26 +2,28 @@
 #
 # This script assumes a linux environment
 
-set -e
+set -eax
 
-DES="dist/build/uBlock0.npm"
+SOURCE_ROOT="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && cd ../ && pwd -P)"
+DES="$SOURCE_ROOT/dist/build/uBlock0.npm"
 
 TMPDIR="$PWD/tmp"
 mkdir -p "$TMPDIR/node_modules"
 
-rm -rf $DES
+cd "$SOURCE_ROOT"
+rm -rf "$DES"
 
-./tools/make-nodejs.sh $DES
-./tools/make-assets.sh $DES
+./tools/make-nodejs.sh "$DES"
+./tools/make-assets.sh "$DES"
 
 # Target-specific
-cp platform/npm/.npmignore $DES/
-cp platform/npm/*.json $DES/
-cp platform/npm/.*.json $DES/
-cp platform/npm/*.js $DES/
-cp -R platform/npm/tests $DES/
+cp platform/npm/.npmignore "$DES/"
+cp platform/npm/*.json "$DES/"
+cp platform/npm/.*.json "$DES/"
+cp platform/npm/*.js "$DES/"
+cp -R platform/npm/tests "$DES/"
 
-cd $DES
+cd "$DES"
 cd tests/data
 tar xzf bundle.tgz
 cd -
@@ -32,12 +34,13 @@ else
     echo "*** uBlock0.npm: Creating plain package..."
     tarballname="uBlock0.npm.tgz"
 fi
-touch yarn.lock
+rm -f yarn.lock
+cp "$SOURCE_ROOT/yarn.lock" ./
 corepack use yarn
 yarn build
 yarn pack --out "../$tarballname"
 
-ln -sf "$TMPDIR/node_modules" .
+ln -sf "$TMPDIR/node_modules" "./node_modules"
 if [ -z "$GITHUB_ACTIONS" ]; then
     yarn install
 fi
