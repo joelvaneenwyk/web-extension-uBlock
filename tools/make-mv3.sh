@@ -2,7 +2,7 @@
 #
 # This script assumes a linux environment
 
-set -e
+set -eEax
 shopt -s extglob
 
 echo "*** uBOLite.mv3: Creating extension"
@@ -10,27 +10,27 @@ echo "*** uBOLite.mv3: Creating extension"
 PLATFORM="chromium"
 
 for i in "$@"; do
-  case $i in
+    case $i in
     quick)
-      QUICK="yes"
-      ;;
+        QUICK="yes"
+        ;;
     full)
-      FULL="yes"
-      ;;
+        FULL="yes"
+        ;;
     firefox)
-      PLATFORM="firefox"
-      ;;
+        PLATFORM="firefox"
+        ;;
     chromium)
-      PLATFORM="chromium"
-      ;;
+        PLATFORM="chromium"
+        ;;
     uBOLite_+([0-9]).+([0-9]).+([0-9]).+([0-9]))
-      TAGNAME="$i"
-      FULL="yes"
-      ;;
+        TAGNAME="$i"
+        FULL="yes"
+        ;;
     before=+([[:print:]]))
-      BEFORE="${i:7}"
-      ;;
-  esac
+        BEFORE="${i:7}"
+        ;;
+    esac
 done
 
 echo "PLATFORM=$PLATFORM"
@@ -46,22 +46,22 @@ fi
 mkdir -p $DES
 cd $DES
 DES=$(pwd)
-cd - > /dev/null
+cd - >/dev/null
 
 mkdir -p "$DES"/css/fonts
 mkdir -p "$DES"/js
 mkdir -p "$DES"/img
 
 if [ -n "$UBO_VERSION" ]; then
-    UBO_REPO="https://github.com/gorhill/uBlock.git"
+    UBO_REPO="https://github.com/joelvaneenwyk/web-extension-uBlock.git"
     UBO_DIR=$(mktemp -d)
     echo "*** uBOLite.mv3: Fetching uBO $UBO_VERSION from $UBO_REPO into $UBO_DIR"
     cd "$UBO_DIR"
     git init -q
-    git remote add origin "https://github.com/gorhill/uBlock.git"
+    git remote add origin "$UBO_REPO"
     git fetch --depth 1 origin "$UBO_VERSION"
     git checkout -q FETCH_HEAD
-    cd - > /dev/null
+    cd - >/dev/null
 else
     UBO_DIR=.
 fi
@@ -121,7 +121,7 @@ if [ "$QUICK" != "yes" ]; then
         echo "    after=$DES"
         node salvage-ruleids.mjs before="$BEFORE"/"$PLATFORM" after="$DES"
     fi
-    cd - > /dev/null
+    cd - >/dev/null
     rm -rf "$TMPDIR"
 fi
 
@@ -131,8 +131,12 @@ echo "Extension location: $DES/"
 # Local build: use a different extension id than the official one
 if [ -z "$TAGNAME" ] && [ "$PLATFORM" = "firefox" ]; then
     tmp=$(mktemp)
-    jq '.browser_specific_settings.gecko.id = "uBOLite.dev@raymondhill.net"' "$DES/manifest.json"  > "$tmp" \
-        && mv "$tmp" "$DES/manifest.json"
+    if command -v jq >/dev/null; then
+        jq '.browser_specific_settings.gecko.id = "uBOLite.dev@raymondhill.net"' "$DES/manifest.json" >"$tmp"
+        mv -f "$tmp" "$DES/manifest.json"
+    else
+        cp -f "$DES/manifest.json" "$tmp"
+    fi
 fi
 
 if [ "$FULL" = "yes" ]; then
@@ -142,20 +146,28 @@ if [ "$FULL" = "yes" ]; then
     fi
     echo "*** uBOLite.mv3: Creating publishable package..."
     if [ -z "$TAGNAME" ]; then
-        TAGNAME="uBOLite_$(jq -r .version "$DES"/manifest.json)"
+        if command -v jq >/dev/null; then
+            VERSION="$(jq -r .version "$DES/manifest.json")"
+        fi
+        TAGNAME="uBOLite_${VERSION:-"0.0.0"}"
     else
         tmp=$(mktemp)
-        jq --arg version "${TAGNAME:8}" '.version = $version' "$DES/manifest.json"  > "$tmp" \
-            && mv "$tmp" "$DES/manifest.json"
+        if command -v jq >/dev/null; then
+            jq --arg version "${TAGNAME:8}" '.version = $version' "$DES/manifest.json" >"$tmp" &&
+                mv "$tmp" "$DES/manifest.json"
+        else
+            cp -f "$DES/manifest.json" "$tmp"
+        fi
     fi
     PACKAGENAME="$TAGNAME.$PLATFORM.mv3.$EXTENSION"
-    TMPDIR=$(mktemp -d)
-    mkdir -p "$TMPDIR"
-    cp -R "$DES"/* "$TMPDIR"/
-    cd "$TMPDIR" > /dev/null
+    unset TMPDIR || true
+    OUTDIR="$(mktemp -d -q)"
+    mkdir -p "$OUTDIR"
+    cp -R "$DES"/* "$OUTDIR"/
+    cd "$OUTDIR" >/dev/null
     zip "$PACKAGENAME" -qr ./*
-    cd - > /dev/null
-    cp "$TMPDIR"/"$PACKAGENAME" dist/build/
-    rm -rf "$TMPDIR"
+    cd - >/dev/null
+    cp "$OUTDIR"/"$PACKAGENAME" dist/build/
+    rm -rf "$OUTDIR"
     echo "Package location: $(pwd)/dist/build/$PACKAGENAME"
 fi
