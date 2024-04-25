@@ -36,7 +36,7 @@ else
 fi
 rm -f ./yarn.lock && touch ./yarn.lock
 ln -sf "$TMPDIR/node_modules" "./node_modules"
-yarn install --no-immutable
+corepack enable && yarn install --no-immutable
 yarn build
 yarn pack --out "../$tarballname"
 
