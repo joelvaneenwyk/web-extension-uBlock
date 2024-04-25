@@ -1,3 +1,5 @@
+# uBlock Origin (uBO)
+
 [![Badge Commits]][Commit Rate]
 [![Badge Issues]][Issues]
 [![Badge Localization]][Crowdin]
@@ -9,9 +11,11 @@
 
 ***
 
+<!-- markdownlint-disable MD033 MD045 -->
+
 <h1 align="center">
 <sub>
-<img src="https://github.com/gorhill/uBlock/blob/master/src/img/ublock.svg" height="38" width="38">
+<img src="src/img/ublock.svg" height="38" width="38">
 </sub>
 uBlock Origin (uBO)
 </h1>
@@ -41,16 +45,17 @@ Ads, "unintrusive" or not, are just the visible portion of the privacy-invading 
 
 ***
 
-* [Documentation](#documentation)
-* [Installation](#installation)
-  * [Firefox](#firefox)
-  * [Thunderbird](#thunderbird)
-  * [Chromium](#chromium)
-  * [All Programs](#all-programs)
-  * [Enterprise Deployment](#enterprise-deployment)
-* [Release History](#release-history)
-* [Translations](#translations)
-* [About](#about)
+- [uBlock Origin (uBO)](#ublock-origin-ubo)
+  - [Documentation](#documentation)
+  - [Installation](#installation)
+    - [Firefox](#firefox)
+    - [Thunderbird](#thunderbird)
+    - [Chromium](#chromium)
+    - [All Programs](#all-programs)
+    - [Enterprise Deployment](#enterprise-deployment)
+  - [Release History](#release-history)
+  - [Translations](#translations)
+  - [About](#about)
 
 ## Documentation
 
@@ -81,7 +86,7 @@ For support, questions, or help, visit [/r/uBlockOrigin][Reddit].
 
 [Required Permissions][Permissions]
 
-#### Firefox
+### Firefox
 
 [Firefox Add-ons][Mozilla]
 
@@ -89,13 +94,13 @@ For support, questions, or help, visit [/r/uBlockOrigin][Reddit].
 
 uBO [works best][Works Best] on Firefox and is available for desktop and Android versions.
 
-#### Thunderbird
+### Thunderbird
 
 [Thunderbird Add-ons][Thunderbird]
 
 In Thunderbird, uBlock Origin does not affect emails, just feeds.
 
-#### Chromium
+### Chromium
 
 [Chrome Web Store][Chrome]
 
@@ -107,13 +112,13 @@ In Thunderbird, uBlock Origin does not affect emails, just feeds.
 
 uBO should be compatible with any Chromium-based browser.
 
-#### All Programs
+### All Programs
 
 Do **NOT** use uBO with any other content blocker. uBO [performs][Performance] as well as or better than most popular blockers. Other blockers can prevent uBO's privacy or anti-blocker-defusing features from working correctly.
 
 [Manual Installation][Manual Installation]
 
-#### Enterprise Deployment
+### Enterprise Deployment
 
 [Deploying uBO][Deployment]
 
@@ -136,7 +141,6 @@ Help translate uBO via [Crowdin][Crowdin].
 Free. Open-source. For users by users. No donations sought.
 
 If you ever want to contribute something, think about the people working hard to maintain the filter lists you are using, which are available to use by all for free.
-
 
 <!----------------------------------------------------------------------------->
 
@@ -161,7 +165,6 @@ If you ever want to contribute something, think about the people working hard to
 
 [Nicole Rolls]: https://github.com/nicole-ashley
 
-
 <!---------------------------------[ Internal ]-------------------------------->
 
 [Manual Installation]: https://github.com/gorhill/uBlock/tree/master/dist#install
@@ -178,7 +181,6 @@ If you ever want to contribute something, think about the people working hard to
 [Beta]: https://github.com/gorhill/uBlock/blob/master/dist/README.md#for-beta-version
 [Wiki]: https://github.com/gorhill/uBlock/wiki
 
-
 <!----------------------------------[ Badges ]--------------------------------->
 
 [Badge Localization]: https://d322cqt584bo4o.cloudfront.net/ublock/localized.svg
@@ -189,4 +191,3 @@ If you ever want to contribute something, think about the people working hard to
 [Badge Edge]: https://img.shields.io/badge/dynamic/json?label=Edge&color=brightgreen&query=%24.averageRating&suffix=%2F%35&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fodfafepnkmbhccpbejgmiehpchacaeak
 [Badge Issues]: https://img.shields.io/github/issues/uBlockOrigin/uBlock-issues
 [Badge NPM]: https://img.shields.io/npm/v/@gorhill/ubo-core
-
