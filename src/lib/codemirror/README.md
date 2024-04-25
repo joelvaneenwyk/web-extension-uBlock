@@ -33,7 +33,7 @@ Either get the [zip file](https://codemirror.net/codemirror.zip) with
 the latest version, or make sure you have [Node](https://nodejs.org/)
 installed and run:
 
-    npm install codemirror
+    yarn install codemirror
 
 **NOTE**: This is the source repository for the library, and not the
 distribution channel. Cloning it is not the recommended way to install
@@ -43,5 +43,5 @@ step.
 ### Quickstart
 
 To build the project, make sure you have Node.js installed (at least version 6)
-and then `npm install`. To run, just open `index.html` in your
-browser (you don't need to run a webserver). Run the tests with `npm test`.
+and then `yarn install`. To run, just open `index.html` in your
+browser (you don't need to run a webserver). Run the tests with `yarn test`.
