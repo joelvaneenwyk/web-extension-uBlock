@@ -1,4 +1,4 @@
-name: Makefile CI
+name: uBO Make
 
 on:
   push:
