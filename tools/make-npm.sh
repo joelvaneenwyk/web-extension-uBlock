@@ -2,7 +2,7 @@
 #
 # This script assumes a linux environment
 
-set -eax
+set -eEax
 
 SOURCE_ROOT="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && cd ../ && pwd -P)"
 DES="$SOURCE_ROOT/dist/build/uBlock0.npm"
@@ -34,10 +34,8 @@ else
     echo "*** uBlock0.npm: Creating plain package..."
     tarballname="uBlock0.npm.tgz"
 fi
-rm -f ./yarn.lock
-touch ./yarn.lock
+rm -f ./yarn.lock && touch ./yarn.lock
 ln -sf "$TMPDIR/node_modules" "./node_modules"
-corepack use yarn
 yarn install --no-immutable
 yarn build
 yarn pack --out "../$tarballname"
