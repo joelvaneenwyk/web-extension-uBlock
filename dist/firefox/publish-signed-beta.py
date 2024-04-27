@@ -47,7 +47,7 @@ if len(sys.argv) >= 2 and sys.argv[1]:
 else:
     tag_version = input('Github release version: ')
 tag_version.strip()
-match = re.search('^(\d+\.\d+\.\d+)(?:(b|rc)(\d+))?$', tag_version)
+match = re.search(r'^(\d+\.\d+\.\d+)(?:(b|rc)(\d+))?$', tag_version)
 if not match:
     print('Error: Invalid version string.')
     exit(1)

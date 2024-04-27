@@ -31,7 +31,7 @@ if len(sys.argv) >= 2 and sys.argv[1]:
 else:
     version = input('Github release version: ')
 version.strip()
-if not re.search('^\d+\.\d+\.\d+(b|rc)\d+$', version):
+if not re.search(r'^\d+\.\d+\.\d+(b|rc)\d+$', version):
     print('Error: Invalid version string.')
     exit(1)
 
