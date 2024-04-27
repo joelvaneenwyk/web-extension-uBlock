@@ -1,0 +1,30 @@
+{
+  "[javascript][typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "files.associations": {
+    "ubo-version": "plaintext",
+    "*.rasi": "css",
+    "*.bbmodel": "json",
+    "*.sublime-snippet": "xml",
+    "*.hbs": "html",
+    "*.ejs": "html",
+    "*.emu": "html",
+    "lesskey": "lesskey",
+    "*.Xresources": "xdefaults",
+    "i3/config": "i3",
+    "i3/*.conf": "i3",
+    "polybar/config": "ini",
+    "polybar/*.conf": "ini"
+  }
+}
