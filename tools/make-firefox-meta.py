@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+"""Make Firefox build of uBlock."""  # pylint: disable=invalid-name
 
-import os
 import json
+import os
 import re
 import sys
 
@@ -12,16 +13,16 @@ proj_dir = os.path.join(os.path.split(os.path.abspath(__file__))[0], '..')
 build_dir = os.path.abspath(sys.argv[1])
 
 version = ''
-with open(os.path.join(proj_dir, 'dist', 'version')) as f:
+with open(os.path.join(proj_dir, 'dist', 'version'), encoding='utf-8') as f:
     version = f.read().strip()
 
 firefox_manifest = {}
 firefox_manifest_file = os.path.join(build_dir, 'manifest.json')
-with open(firefox_manifest_file) as f2:
+with open(firefox_manifest_file, encoding='utf-8') as f2:
     firefox_manifest = json.load(f2)
 
 if 'sidebar_action' in firefox_manifest:
-    match = re.search('^(\d+\.\d+\.\d+)(\.\d+)$', version)
+    match = re.search(r'^(\d+\.\d+\.\d+)(\.\d+)$', version)
     if not match:
         # https://bugzilla.mozilla.org/show_bug.cgi?id=1459007
         # By design Firefox opens the sidebar with new installation of
@@ -31,6 +32,6 @@ if 'sidebar_action' in firefox_manifest:
 
 firefox_manifest['version'] = version
 
-with open(firefox_manifest_file, 'w') as f2:
+with open(firefox_manifest_file, 'w', encoding='utf-8') as f2:
     json.dump(firefox_manifest, f2, indent=2, separators=(',', ': '), sort_keys=True)
     f2.write('\n')

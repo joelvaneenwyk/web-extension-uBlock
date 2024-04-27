@@ -19,18 +19,16 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-'use strict';
+
 
 /******************************************************************************/
 
+import './_common.js';
 import { strict as assert } from 'assert';
-
 import { createWorld } from 'esm-world';
 
-import './_common.js';
-
 describe('SNFE', () => {
-    for ( let wasm of [ false/*, true*/ ] ) {
+    for (let wasm of [false/*, true*/]) {
         context(`${wasm ? 'Wasm on' : 'Wasm off'}`, () => {
             let module = null;
             let engine = null;
@@ -38,7 +36,7 @@ describe('SNFE', () => {
             beforeEach(async () => {
                 module = await createWorld('./index.js', { globals: global });
 
-                if ( wasm ) {
+                if (wasm) {
                     assert(await module.enableWASM());
                 }
             });

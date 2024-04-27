@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node build.js",
-    "lint": "eslint js/ *.js tests/*.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "c8 --include=index.js --include=js/**/*.js node test.js --mocha",
     "test-full-battery": "c8 --include=index.js --include=js/**/*.js node test.js --mocha --full-battery",
     "check-leaks": "mocha --check-leaks tests/leaks.js"

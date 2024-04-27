@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
+"""Publish beta version of uBlock."""  # pylint: disable=invalid-name
 
-import datetime
 import json
 import os
 import re
-import requests
-import shutil
-import subprocess
 import sys
 import tempfile
-import time
-import zipfile
 
-from string import Template
+import requests  # type: ignore  # pylint: disable=import-error
 
 # - Download target (raw) uBlock0.chromium.zip from GitHub
 #   - This is referred to as "raw" package
@@ -31,7 +26,7 @@ if len(sys.argv) >= 2 and sys.argv[1]:
 else:
     version = input('Github release version: ')
 version.strip()
-if not re.search('^\d+\.\d+\.\d+(b|rc)\d+$', version):
+if not re.search(r'^\d+\.\d+\.\d+(b|rc)\d+$', version):
     print('Error: Invalid version string.')
     exit(1)
 
@@ -47,7 +42,7 @@ github_repo = 'uBlock'
 ubo_secrets = dict()
 ubo_secrets_filename = os.path.join(projdir, 'tmp', 'ubo_secrets')
 if os.path.isfile(ubo_secrets_filename):
-    with open(ubo_secrets_filename) as f:
+    with open(ubo_secrets_filename, encoding='utf-8') as f:
         ubo_secrets = json.load(f)
 
 def input_secret(prompt, token):
@@ -63,8 +58,8 @@ def input_secret(prompt, token):
     elif token not in ubo_secrets or value != ubo_secrets[token]:
         ubo_secrets[token] = value
         exists = os.path.isfile(ubo_secrets_filename)
-        with open(ubo_secrets_filename, 'w') as f:
-            json.dump(ubo_secrets, f, indent=2)
+        with open(ubo_secrets_filename, 'w', encoding='utf-8') as sf:
+            json.dump(ubo_secrets, sf, indent=2)
         if not exists:
             os.chmod(ubo_secrets_filename, 0o600)
     return value
@@ -117,8 +112,8 @@ response = requests.get(raw_zip_url, headers=headers)
 if response.status_code != 200:
     print('Error: Downloading raw package failed -- server error {0}'.format(response.status_code))
     exit(1)
-with open(raw_zip_filepath, 'wb') as f:
-    f.write(response.content)
+with open(raw_zip_filepath, 'wb') as ff:
+    ff.write(response.content)
 print('Downloaded raw package saved as {0}'.format(raw_zip_filepath))
 
 #
@@ -131,7 +126,7 @@ cs_secret = input_secret('Chrome store secret', 'cs_secret')
 cs_refresh = input_secret('Chrome store refresh token', 'cs_refresh')
 
 print('Uploading to Chrome store...')
-with open(raw_zip_filepath, 'rb') as f:
+with open(raw_zip_filepath, 'rb') as ff:
     print('Generating access token...')
     auth_url = 'https://accounts.google.com/o/oauth2/token'
     auth_payload = {
@@ -158,13 +153,13 @@ with open(raw_zip_filepath, 'rb') as f:
     # Upload
     print('Uploading package...')
     upload_url = 'https://www.googleapis.com/upload/chromewebstore/v1.1/items/{0}'.format(cs_extension_id)
-    upload_response = requests.put(upload_url, headers=headers, data=f)
-    f.close()
+    upload_response = requests.put(upload_url, headers=headers, data=ff)
+    ff.close()
     if upload_response.status_code != 200:
         print('Upload failed -- server error {0}'.format(upload_response.status_code))
         print(upload_response.text)
         exit(1)
-    response_dict = upload_response.json();
+    response_dict = upload_response.json()
     if 'uploadState' not in response_dict or response_dict['uploadState'] != 'SUCCESS':
         print('Upload failed -- server error {0}'.format(response_dict['uploadState']))
         exit(1)
@@ -181,7 +176,7 @@ with open(raw_zip_filepath, 'rb') as f:
     if publish_response.status_code != 200:
         print('Error: Chrome store publishing failed -- server error {0}'.format(publish_response.status_code))
         exit(1)
-    response_dict = publish_response.json();
+    response_dict = publish_response.json()
     if 'status' not in response_dict or response_dict['status'][0] != 'OK':
         print('Publishing failed -- server error {0}'.format(response_dict['status']))
         exit(1)

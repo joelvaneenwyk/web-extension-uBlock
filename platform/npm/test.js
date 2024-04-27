@@ -22,12 +22,10 @@
 /* eslint-disable-next-line no-redeclare */
 /* globals process */
 
-'use strict';
-
 /******************************************************************************/
 
-import { spawn } from "child_process";
 import { promisify } from 'util';
+import { spawn } from "child_process";
 
 /******************************************************************************/
 
@@ -39,17 +37,17 @@ async function spawnMocha() {
 
     const options = [];
 
-    if ( process.argv[3] === '--full-battery' ) {
+    if (process.argv[3] === '--full-battery') {
         files.push('tests/request-data.js');
 
         options.push('--reporter', 'progress');
     }
 
-    await promisify(spawn)('mocha', [ '--experimental-vm-modules', '--no-warnings', ...files, ...options ], { stdio: [ 'inherit', 'inherit', 'inherit' ] });
+    await promisify(spawn)('mocha', ['--experimental-vm-modules', '--no-warnings', ...files, ...options], { stdio: ['inherit', 'inherit', 'inherit'] });
 }
 
 async function main() {
-    if ( process.argv[2] === '--mocha' ) {
+    if (process.argv[2] === '--mocha') {
         await spawnMocha();
     }
 }

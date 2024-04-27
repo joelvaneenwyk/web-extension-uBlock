@@ -1,14 +1,20 @@
+#
+# uBLock Makefile
+#
+
 # https://stackoverflow.com/a/6273809
 run_options := $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: all clean cleanassets test lint chromium opera firefox npm dig mv3 mv3-quick \
+.PHONY: all clean cleanassets test lint chromium opera firefox npm mv3 mv3-quick \
 	compare maxcost medcost mincost modifiers record wasm
 
 sources := $(wildcard assets/* assets/*/* dist/version src/* src/*/* src/*/*/* src/*/*/*/*)
 platform := $(wildcard platform/* platform/*/* platform/*/*/* platform/*/*/*/* platform/*/*/*/*/*)
 assets := dist/build/uAssets
 
-all: chromium firefox npm
+NPM := yarn
+
+all: chromium firefox opera npm
 
 dist/build/uBlock0.chromium: tools/make-chromium.sh $(sources) $(platform) $(assets)
 	tools/make-chromium.sh
@@ -35,25 +41,25 @@ dist/build/uBlock0.npm: tools/make-nodejs.sh $(sources) $(platform) $(assets)
 npm: dist/build/uBlock0.npm
 
 lint: npm
-	cd dist/build/uBlock0.npm && npm run lint
+	cd dist/build/uBlock0.npm && $(NPM) lint
 
 test: npm
-	cd dist/build/uBlock0.npm && npm run test
+	cd dist/build/uBlock0.npm && $(NPM) test
 
 test-full-battery: npm
-	cd dist/build/uBlock0.npm && npm run test-full-battery
+	cd dist/build/uBlock0.npm && $(NPM) test-full-battery
 
 check-leaks: npm
-	cd dist/build/uBlock0.npm && npm run check-leaks
+	cd dist/build/uBlock0.npm && $(NPM) check-leaks
 
 dist/build/uBlock0.dig: tools/make-nodejs.sh $(sources) $(platform) $(assets)
 	tools/make-dig.sh
 
 dig: dist/build/uBlock0.dig
-	cd dist/build/uBlock0.dig && npm install
+	cd dist/build/uBlock0.dig && $(NPM) install
 
 dig-snfe: dig
-	cd dist/build/uBlock0.dig && npm run snfe $(run_options)
+	cd dist/build/uBlock0.dig && $(NPM) snfe $(run_options)
 
 mv3-chromium: tools/make-mv3.sh $(sources) $(platform)
 	tools/make-mv3.sh chromium

@@ -1,0 +1,26 @@
+{
+  "name": "web-extension-ublock",
+  "version": "1.0.0",
+  "description": "uBlock Origin web extension",
+  "main": "dist/build/uBlock0.npm/index.js",
+  "private": true,
+  "workspaces": [
+    "platform/dig",
+    "platform/mv3",
+    "platform/npm"
+  ],
+  "scripts": {
+    "build": "make all",
+    "audit": "echo \"Running audit...\" && yarn npm audit --all --json --recursive && echo \"Audit pass complete.\" ",
+    "validate": "yarn install --immutable --immutable-cache --check-cache",
+    "lint": "yarn workspaces foreach -A run lint"
+  },
+  "dependencies": {
+    "@gorhill/ubo-core": "workspace:*",
+    "@gorhill/ubo-dig": "workspace:*",
+    "@gorhill/ubo-mv3": "workspace:*"
+  },
+  "author": "gorhill",
+  "license": "GPL-3.0-only",
+  "packageManager": "yarn@4.1.1+sha256.f3cc0eda8e5560e529c7147565b30faa43b4e472d90e8634d7134a37c7f59781"
+}

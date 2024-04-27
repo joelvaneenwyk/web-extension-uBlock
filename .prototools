@@ -1,0 +1,15 @@
+act = "0.2.61"
+gojq = "0.12.15"
+node = "21.7.3"
+python = "3.12.3"
+shellcheck = "0.10.0"
+shfmt = "3.8.0"
+task = "3.36.0"
+yarn = "4.1.1"
+
+[plugins]
+act = "source:https://raw.githubusercontent.com/theomessin/proto-toml-plugins/master/act.toml"
+gojq = "source:https://raw.githubusercontent.com/stk0vrfl0w/proto-toml-plugins/main/plugins/gojq.toml"
+shellcheck = "source:https://raw.githubusercontent.com/Phault/proto-toml-plugins/main/shellcheck/plugin.toml"
+shfmt = "source:https://raw.githubusercontent.com/Phault/proto-toml-plugins/main/shfmt/plugin.toml"
+task = "source:https://raw.githubusercontent.com/Phault/proto-toml-plugins/main/task/plugin.toml"
