@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Make Opera build of uBlock."""  # pylint: disable=invalid-name
 
-import os
 import json
+import os
 import sys
 
 if len(sys.argv) == 1 or not sys.argv[1]:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Make Firefox build of uBlock."""  # pylint: disable=invalid-name
 
-import os
 import json
+import os
 import re
 import sys
 

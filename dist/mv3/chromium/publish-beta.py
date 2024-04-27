@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 
-import datetime
 import json
 import os
 import re
-import requests
-import shutil
-import subprocess
 import sys
 import tempfile
-import time
-import zipfile
 
-from string import Template
+import requests  # type: ignore  # pylint: disable=import-error
 
 # - Download target (raw) uBOLite_*.chromium.mv3.zip from GitHub
 #   - This is referred to as "raw" package

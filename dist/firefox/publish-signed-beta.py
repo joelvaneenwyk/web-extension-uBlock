@@ -11,7 +11,7 @@ import time
 import zipfile
 
 from string import Template
-
+import requests  # type: ignore  # pylint: disable=import-error
 import jwt  # type: ignore  # pylint: disable=import-error
 
 # - Download target (raw) uBlock0.firefox.xpi from GitHub
