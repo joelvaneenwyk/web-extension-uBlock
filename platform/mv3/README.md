@@ -13,19 +13,18 @@ The following assumes a linux environment.
 Upon completion of the script, the resulting extension package will become present in:
 
 - Chromium: `dist/build/uBOLite.chromium`
--  Firefox: `dist/build/uBOLite.firefox`
+- Firefox: `dist/build/uBOLite.firefox`
 
 The folder `dist/build/mv3-data` will cache data fetched from remote server, so as to avoid fetching repeatedly from remote server with repeated build commands. Remove `dist/build/mv3-data` if you want to build with latest versions of filter lists.
 
 The file `dist/build/mv3-data/log.txt` will contain information about what happened during the build process.
 
-The entry in the `Makefile` which implement the build process is `tools/make-mv3.sh [platform]`.[1] This Bash script copy various files from uBlock Origin branch and MV3-specific branch into a single folder which will be the final extension package.
+The entry in the `Makefile` which implement the build process is [tools/make-mv3.sh] `[platform]`. This Bash script copy various files from uBlock Origin branch and MV3-specific branch into a single folder which will be the final extension package.
 
-Notably, `tools/make-mv3.sh [platform]` calls a Nodejs script which purpose is to convert the filter lists into various rulesets to be used in a declarative way. The Nodejs version required is 17.5.0 or above.
+Notably, `tools/make-mv3.sh [platform]` [calls a NodeJS script] which purpose is to convert the filter lists into various rulesets to be used in a declarative way. The NodeJS version required is `17.5.0` or newer.
 
 All the final rulesets are present in the `dist/build/uBOLite.[platform]/rulesets` in the final extension package.
 
 ---
-
-[1] https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh
-[2] https://github.com/gorhill/uBlock/blob/c4d324362fdb95ff8ef20f0b18f42f0eec955433/tools/make-mv3.sh#L103
+[tools/make-mv3.sh]: <https://github.com/joelvaneenwyk/web-extension-uBlock/blob/develop/tools/make-mv3.sh>
+[calls a NodeJS script]: <https://github.com/joelvaneenwyk/web-extension-uBlock/blob/develop/tools/make-mv3.sh#L103>
