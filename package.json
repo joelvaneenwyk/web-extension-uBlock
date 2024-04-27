@@ -12,7 +12,8 @@
   "scripts": {
     "build": "make all",
     "audit": "echo \"Running audit...\" && yarn npm audit --all --json --recursive && echo \"Audit pass complete.\" ",
-    "validate": "yarn install --immutable --immutable-cache --check-cache"
+    "validate": "yarn install --immutable --immutable-cache --check-cache",
+    "lint": "yarn workspaces foreach -A run lint"
   },
   "dependencies": {
     "@gorhill/ubo-core": "workspace:*",
