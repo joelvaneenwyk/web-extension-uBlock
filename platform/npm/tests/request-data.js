@@ -19,18 +19,16 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-'use strict';
+
 
 /******************************************************************************/
 
 import { strict as assert } from 'assert';
+import { createWorld } from 'esm-world';
 import { readFile } from 'fs/promises';
 import { createRequire } from 'module';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
-
-import { createWorld } from 'esm-world';
-
 import './_common.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -63,14 +61,14 @@ describe('Request data', () => {
         texttrack: 'other',
     };
 
-    for ( let wasm of [ false, true ] ) {
+    for (let wasm of [false, true]) {
         context(`${wasm ? 'Wasm on' : 'Wasm off'}`, () => {
             let engine = null;
 
             before(async () => {
                 const { StaticNetFilteringEngine, enableWASM } = await createWorld('./index.js', { globals: global });
 
-                if ( wasm ) {
+                if (wasm) {
                     assert(await enableWASM());
                 }
 
@@ -102,7 +100,7 @@ describe('Request data', () => {
                 ]);
             });
 
-            for ( let i = 0; i < requests.length; i++ ) {
+            for (let i = 0; i < requests.length; i++) {
                 const { url, frameUrl, cpt } = requests[i];
                 const request = { url, originURL: frameUrl, type: typeMap[cpt] };
 

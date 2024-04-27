@@ -19,17 +19,12 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-/* globals WebAssembly */
-
-'use strict';
-
 /******************************************************************************/
 
+import './_common.js';
 import { strict as assert } from 'assert';
-
 import { createWorld } from 'esm-world';
 
-import './_common.js';
 
 describe('WASM', () => {
     context('WebAssembly available', () => {
