@@ -6,6 +6,7 @@
 /tmp/
 node_modules/
 .yarn/
+.venv/
 
 *.bak
 *.pem
