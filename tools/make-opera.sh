@@ -2,7 +2,7 @@
 #
 # This script assumes a linux environment
 
-set -e
+set -eEax
 
 echo "*** uBlock0.opera: Creating web store package"
 
@@ -15,26 +15,26 @@ bash ./tools/copy-common-files.sh $DES
 
 # Chromium-specific
 echo "*** uBlock0.opera: Copying chromium-specific files"
-cp platform/chromium/*.js   $DES/js/
+cp platform/chromium/*.js $DES/js/
 cp platform/chromium/*.html $DES/
 
 # Opera-specific
 echo "*** uBlock0.opera: Copying opera-specific files"
 cp platform/opera/manifest.json $DES/
 
-rm -r $DES/_locales/az
-rm -r $DES/_locales/be
-rm -r $DES/_locales/cv
-rm -r $DES/_locales/gu
-rm -r $DES/_locales/hi
-rm -r $DES/_locales/hy
-rm -r $DES/_locales/ka
-rm -r $DES/_locales/kk
-rm -r $DES/_locales/ku
-rm -r $DES/_locales/mr
-rm -r $DES/_locales/si
-rm -r $DES/_locales/so
-rm -r $DES/_locales/th
+rm -rf $DES/_locales/az
+rm -rf $DES/_locales/be
+rm -rf $DES/_locales/cv
+rm -rf $DES/_locales/gu
+rm -rf $DES/_locales/hi
+rm -rf $DES/_locales/hy
+rm -rf $DES/_locales/ka
+rm -rf $DES/_locales/kk
+rm -rf $DES/_locales/ku
+rm -rf $DES/_locales/mr
+rm -rf $DES/_locales/si
+rm -rf $DES/_locales/so
+rm -rf $DES/_locales/th
 
 # Removing WASM modules until I receive an answer from Opera people: Opera's
 # uploader issue an error for hntrie.wasm and this prevents me from

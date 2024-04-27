@@ -9,6 +9,7 @@ DES="$SOURCE_ROOT/dist/build/uBlock0.npm"
 
 TMPDIR="$PWD/tmp"
 mkdir -p "$TMPDIR/node_modules"
+ln -sf "$TMPDIR/node_modules" "$SOURCE_ROOT/dist/build/node_modules"
 
 cd "$SOURCE_ROOT"
 rm -rf "$DES"

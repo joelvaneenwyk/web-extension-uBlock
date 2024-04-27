@@ -2,7 +2,7 @@
 #
 # This script assumes a linux environment
 
-set -e
+set -eEax
 
 DES="dist/build/uBlock0.dig"
 

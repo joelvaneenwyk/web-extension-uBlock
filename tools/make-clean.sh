@@ -2,7 +2,7 @@
 #
 # This script assumes a linux environment
 
-set -e
+set -eEax
 
 echo "*** uBlock: Cleaning."
 rm -Rf dist/build
