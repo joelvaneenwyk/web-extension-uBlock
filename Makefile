@@ -1,3 +1,7 @@
+#
+# uBLock Makefile
+#
+
 # https://stackoverflow.com/a/6273809
 run_options := $(filter-out $@,$(MAKECMDGOALS))
 
@@ -10,7 +14,7 @@ assets := dist/build/uAssets
 
 NPM := yarn
 
-all: chromium firefox npm
+all: chromium firefox opera npm
 
 dist/build/uBlock0.chromium: tools/make-chromium.sh $(sources) $(platform) $(assets)
 	tools/make-chromium.sh
