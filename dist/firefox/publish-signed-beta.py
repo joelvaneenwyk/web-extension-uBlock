@@ -2,11 +2,8 @@
 
 import datetime
 import json
-import jwt
 import os
 import re
-import requests
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -14,6 +11,8 @@ import time
 import zipfile
 
 from string import Template
+
+import jwt  # type: ignore  # pylint: disable=import-error
 
 # - Download target (raw) uBlock0.firefox.xpi from GitHub
 #   - This is referred to as "raw" package
@@ -51,11 +50,11 @@ match = re.search(r'^(\d+\.\d+\.\d+)(?:(b|rc)(\d+))?$', tag_version)
 if not match:
     print('Error: Invalid version string.')
     exit(1)
-ext_version = match.group(1);
+ext_version = match.group(1)
 if match.group(2):
     revision = int(match.group(3))
     if match.group(2) == 'rc':
-        revision += 100;
+        revision += 100
     ext_version += '.' + str(revision)
 
 extension_id = 'uBlock0@raymondhill.net'
