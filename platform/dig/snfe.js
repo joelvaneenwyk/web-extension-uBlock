@@ -22,16 +22,16 @@
 /* eslint-disable-next-line no-redeclare */
 /* globals process */
 
-'use strict';
-
 /******************************************************************************/
 
+// eslint-disable-next-line no-unused-vars
 import { strict as assert } from 'assert';
 import { createRequire } from 'module';
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+// eslint-disable-next-line no-unused-vars
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import { enableWASM, StaticNetFilteringEngine } from './index.js';
