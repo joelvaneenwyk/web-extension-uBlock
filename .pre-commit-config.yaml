@@ -3,10 +3,9 @@ repos:
     rev: v4.6.0
     hooks:
       - id: check-yaml
+      - id: fix-byte-order-marker
 
   - repo: https://github.com/mrtazz/checkmake.git
-    # Or another commit hash or version
     rev: 0.2.2
     hooks:
-      # Use this hook to let pre-commit build checkmake in its sandbox
       - id: checkmake

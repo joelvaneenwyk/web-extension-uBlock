@@ -1,33 +1,43 @@
 {
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": false,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
-    "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit",
-      "source.organizeImports": "explicit"
-    }
-  },
   "[javascript][typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": false,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
       "source.organizeImports": "explicit"
-    }
+    },
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
+  },
+  "[jsonc][json5][json]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format",
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": false,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
       "source.organizeImports": "explicit"
-    }
+    },
+    "editor.defaultFormatter": "foxundermoon.shell-format",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
   },
   "eslint.codeActionsOnSave.mode": "all",
   "eslint.enable": true,
@@ -37,18 +47,34 @@
     "typescript"
   ],
   "files.associations": {
-    "ubo-version": "plaintext",
-    "*.rasi": "css",
     "*.bbmodel": "json",
-    "*.sublime-snippet": "xml",
-    "*.hbs": "html",
     "*.ejs": "html",
     "*.emu": "html",
-    "lesskey": "lesskey",
+    "*.hbs": "html",
+    "*.rasi": "css",
+    "*.sublime-snippet": "xml",
     "*.Xresources": "xdefaults",
-    "i3/config": "i3",
     "i3/*.conf": "i3",
+    "i3/config": "i3",
+    "lesskey": "lesskey",
+    "polybar/*.conf": "ini",
     "polybar/config": "ini",
-    "polybar/*.conf": "ini"
-  }
+    "ubo-version": "plaintext"
+  },
+  "json.format.enable": true,
+  "json.schemaDownload.enable": true,
+  "makefile.configurations": [
+    {
+      "args": [
+        "DEVELOPMENT=1"
+      ],
+      "name": "development"
+    },
+    {
+      "args": [
+        "PRODUCTION=1"
+      ],
+      "name": "production"
+    }
+  ]
 }
