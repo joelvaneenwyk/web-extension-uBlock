@@ -1,6 +1,6 @@
 ! Title: Static Filtering Parser Checklist
-! Homepage: https://github.com/gorhill/uBlock
-! Licence: https://github.com/gorhill/uBlock/blob/master/LICENSE.txt
+! Homepage: https://github.com/joelvaneenwyk/web-extension-uBlock
+! Licence: https://github.com/joelvaneenwyk/web-extension-uBlock/blob/main/LICENSE
 !
 ! Description:
 ! To verify that the static filtering parser is properly parsing valid and

@@ -40,4 +40,4 @@ node -pe "JSON.stringify(Array.from(fs.readFileSync('src/lib/publicsuffixlist/wa
 
 cp platform/nodejs/*.js "$DES/"
 cp platform/nodejs/README.md "$DES/"
-cp LICENSE.txt "$DES/"
+cp LICENSE "$DES/"

@@ -161,7 +161,7 @@ If you ever want to contribute something, think about the people working hard to
 [NPM]: https://www.npmjs.com/package/@gorhill/ubo-core
 
 [Manifesto]: MANIFESTO.md
-[License]: LICENSE.txt
+[License]: LICENSE
 
 [Nicole Rolls]: https://github.com/nicole-ashley
 
@@ -178,7 +178,7 @@ If you ever want to contribute something, think about the people working hard to
 [Blocking]: https://github.com/gorhill/uBlock/wiki/Blocking-mode
 [Releases]: https://github.com/gorhill/uBlock/releases
 [Issues]: https://github.com/uBlockOrigin/uBlock-issues/issues
-[Beta]: https://github.com/gorhill/uBlock/blob/master/dist/README.md#for-beta-version
+[Beta]: https://github.com/joelvaneenwyk/web-extension-uBlock/blob/main/dist/README.md#for-beta-version
 [Wiki]: https://github.com/gorhill/uBlock/wiki
 
 <!----------------------------------[ Badges ]--------------------------------->
