@@ -40,7 +40,7 @@ jobs:
       matrix:
         include:
           - language: javascript-typescript
-            build-mode: manual
+            build-mode: none
           - language: python
             build-mode: none
 
@@ -63,8 +63,7 @@ jobs:
         with:
           node-version: 20
 
-      - if: matrix.build-mode == 'manual'
-        run: |
+      - run: |
           make
 
       - name: Perform CodeQL Analysis
