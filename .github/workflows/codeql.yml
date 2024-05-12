@@ -58,6 +58,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
+          codeql-config: .github/codeql/codeql-config.yml
 
       - uses: actions/setup-node@v4
         with:

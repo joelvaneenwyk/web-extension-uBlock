@@ -6,14 +6,14 @@ queries:
   - uses: security-and-quality
 
 paths:
-  - src/js/codemirror
+  - 'src/js/codemirror/*.js'
 
 paths-ignore:
-  - src/js/
-  - dist/
-  - .venv/
-  - .git/
-  - .mypy_cache/
-  - .yarn/
-  - node_modules/
+  - '**/src/js/**'
+  - '**/dist/**'
+  - '**/.venv/**'
+  - '**/.git/**'
+  - '**/.mypy_cache/**'
+  - '**/.yarn/**'
+  - '**/node_modules/**'
   - "**/*.test.js"
