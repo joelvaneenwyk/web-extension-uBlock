@@ -6,7 +6,7 @@ queries:
   - uses: security-and-quality
 
 paths:
-  - src
+  - src/js/codemirror
 
 paths-ignore:
   - src/js/

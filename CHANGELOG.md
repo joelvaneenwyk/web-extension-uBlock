@@ -1,4 +1,4 @@
-## Fixes / changes
+# Fixes / changes
 
 - [Fix potential corruption when reading serialized data](https://github.com/gorhill/uBlock/commit/c098eb8625)
 - [Improve `remove-[attr|class]` scriptlets](https://github.com/gorhill/uBlock/commit/91dfcbef2a)
@@ -12,17 +12,17 @@
 
 ----------
 
-# 1.57.2
+## 1.57.2
 
-## Fixes / changes
+### Fixes / changes
 
 - [Fix stray lists in redesigned cache storage](https://github.com/gorhill/uBlock/commit/defd68ef7d)
 
 ----------
 
-# 1.57.0
+## 1.57.0
 
-## Fixes / changes
+### Fixes / changes
 
 - [Do not block large media resources when loaded as top-level document](https://github.com/gorhill/uBlock/commit/3919a16bb8)
 - [Properly manage cache storage regarding managed user filters](https://github.com/gorhill/uBlock/commit/90ab1a76ab)
@@ -45,7 +45,7 @@
 - [Improve `spoof-css` scriptlet](https://github.com/gorhill/uBlock/commit/603239970d)
 - [Make asset updater compatible with non-persistent background page](https://github.com/gorhill/uBlock/commit/96704f2fda)
 - [Move dragbar to the top of element picker dialog](https://github.com/gorhill/uBlock/commit/953c978d59)
-    - [Move "Quit" button to top bar in element picker](https://github.com/gorhill/uBlock/commit/6266c4718d)
+  - [Move "Quit" button to top bar in element picker](https://github.com/gorhill/uBlock/commit/6266c4718d)
 - [Add advanced setting `requestStatsDisabled`](https://github.com/gorhill/uBlock/commit/e02ea69c86)
 - [First lookup matching stock lists when importing URLs](https://github.com/gorhill/uBlock/commit/2b16a10b82)
 - [Reset filter lists in worker when creating filters via "Block element"](https://github.com/gorhill/uBlock/commit/b0067b79d5)
@@ -58,9 +58,9 @@
 
 ----------
 
-# 1.56.0
+## 1.56.0
 
-## Fixes / changes
+### Fixes / changes
 
 - [Mind that multiple `uritransform` may apply to a single request](https://github.com/gorhill/uBlock/commit/2a5a444482)
 - [Fix incorrect built-in filtering expression in logger](https://github.com/gorhill/uBlock/commit/9bff0c2f94)
@@ -92,9 +92,9 @@
 
 ----------
 
-# 1.55.0
+## 1.55.0
 
-## Fixes / changes
+### Fixes / changes
 
 - [Discard repeating adjacent entries in the logger](https://github.com/gorhill/uBlock/commit/55e4cee6e8)
 - [Mind drop events in filter expression field of logger](https://github.com/gorhill/uBlock/commit/c8b7d1a526)
@@ -126,9 +126,9 @@
 
 ----------
 
-# 1.54.0
+## 1.54.0
 
-## New
+### New
 
 Differential update of filter lists, as a result of discussions at <https://github.com/AdguardTeam/FiltersCompiler/issues/192>. Resulting spec is [here](https://github.com/ameshkov/diffupdates).
 
@@ -142,7 +142,7 @@ It is expected that differential updates will lower both requests and bandwidth 
 
 To benefit the much shorter update period enabled by differential updates, you must let uBO auto-update the filter lists. Forcing a manual update will prevent differential updates until the next time a list auto-update.
 
-## Fixes / changes
+### Fixes / changes
 
 - [Enable path for native `has()` selector in Firefox](https://github.com/gorhill/uBlock/commit/c5724c1cce)
 - [Allow scriptlets to be injected in `about:blank`](https://github.com/gorhill/uBlock/commit/3fd2588650)
@@ -151,7 +151,7 @@ To benefit the much shorter update period enabled by differential updates, you m
 - [More improvements to the `google-ima` shim script](https://github.com/gorhill/uBlock/commit/c1d8f5908d) (by @kzar)
 - [All exceptions filters are exempt from requiring a trusted source](https://github.com/gorhill/uBlock/commit/d2b8d990e6)
 - [Add `trusted-set-session-storage-item` scriptlet](https://github.com/gorhill/uBlock/commit/f3d6a21e7a)
-- [Allow the use of quotes in `set-cookie` scriptlet ](https://github.com/gorhill/uBlock/commit/7c562d0c5c)
+- [Allow the use of quotes in `set-cookie` scriptlet](https://github.com/gorhill/uBlock/commit/7c562d0c5c)
 - [Allow the use of quotes in `set-(local|session)-storage-item`](https://github.com/gorhill/uBlock/commit/decafc5cbf)
 - [Add ability to trigger cookie removal on specific events](https://github.com/gorhill/uBlock/commit/ef311ddbec)
 - [Ensure CSSTree does not hold a reference onto last parsed string](https://github.com/gorhill/uBlock/commit/1dba557c9a)

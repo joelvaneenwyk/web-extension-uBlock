@@ -1,2 +1,4 @@
+codeql
+gorhill
 ublock
 unintrusive
