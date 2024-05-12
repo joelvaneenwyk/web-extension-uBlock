@@ -1,0 +1,11 @@
+---
+sourceLocationPrefix: ../../
+baselineLinesOfCode: 80029
+unicodeNewlines: true
+columnKind: utf16
+primaryLanguage: javascript
+creationMetadata:
+  sha: 92b93c3bed6cb22e5be6f7035ee4614bb21300a1
+  cliVersion: 2.17.2
+  creationTime: 2024-05-12T21:00:52.522655500Z
+finalised: true

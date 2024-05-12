@@ -1,0 +1,5 @@
+---
+library: false
+warnOnImplicitThis: false
+name: codeql
+version: 0.0.1

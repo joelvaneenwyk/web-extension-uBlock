@@ -1,6 +1,6 @@
 name: "uBlock CodeQL Config"
 
-disable-default-queries: false
+disable-default-queries: true
 
 queries:
   - uses: security-and-quality
@@ -9,6 +9,7 @@ paths:
   - src
 
 paths-ignore:
+  - src/js/
   - dist/
   - .venv/
   - .git/
