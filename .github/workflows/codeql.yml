@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [develop, main]
+    branches: [main, develop]
   pull_request:
-    branches: [develop, main]
+    branches: [main, develop]
   schedule:
     - cron: "25 13 * * 6"
 
@@ -43,9 +43,14 @@ jobs:
             build-mode: none
           - language: python
             build-mode: none
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+          submodules: recursive
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -53,10 +58,14 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
+          config: .github/codeql/codeql-config.yml
 
-      - if: matrix.build-mode == 'manual'
-        run: |
-          make all
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: |
+          make
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "uBlock Origin web extension",
   "main": "dist/build/uBlock0.npm/index.js",
+  "packageManager": "yarn@4.2.2+sha256.1aa43a5304405be7a7cb9cb5de7b97de9c4e8ddd3273e4dad00d6ae3eb39f0ef",
   "private": true,
   "workspaces": [
     "platform/dig",
@@ -21,6 +22,5 @@
     "@gorhill/ubo-mv3": "workspace:*"
   },
   "author": "gorhill",
-  "license": "GPL-3.0-only",
-  "packageManager": "yarn@4.1.1+sha256.f3cc0eda8e5560e529c7147565b30faa43b4e472d90e8634d7134a37c7f59781"
+  "license": "GPL-3.0-only"
 }

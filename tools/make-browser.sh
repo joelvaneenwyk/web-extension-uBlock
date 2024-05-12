@@ -33,4 +33,4 @@ cp -R submodules/uAssets/thirdparties/easylist-downloads.adblockplus.org/* \
 
 cp platform/browser/*.html $DES/
 cp platform/browser/*.js $DES/
-cp LICENSE.txt $DES/
+cp LICENSE $DES/

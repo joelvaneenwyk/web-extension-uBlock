@@ -1,0 +1,19 @@
+name: "uBlock CodeQL Config"
+
+disable-default-queries: true
+
+queries:
+  - uses: security-and-quality
+
+paths:
+  - 'src/js/codemirror/*.js'
+
+paths-ignore:
+  - '**/src/js/**'
+  - '**/dist/**'
+  - '**/.venv/**'
+  - '**/.git/**'
+  - '**/.mypy_cache/**'
+  - '**/.yarn/**'
+  - '**/node_modules/**'
+  - "**/*.test.js"

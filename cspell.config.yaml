@@ -1,0 +1,11 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions:
+  - name: cspell-web-extension-ublock
+    path: ./.vscode/cspell-web-extension-ublock.txt
+    addWords: true
+dictionaries:
+  - cspell-web-extension-ublock
+words: []
+ignoreWords: []
+import: []

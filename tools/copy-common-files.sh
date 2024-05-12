@@ -22,4 +22,4 @@ cp -R src/_locales "$DES"/
 cp src/*.html "$DES"/
 cp platform/common/*.js "$DES"/js/
 cp platform/common/*.json "$DES"/
-cp LICENSE.txt "$DES"/
+cp LICENSE "$DES"/

@@ -80,7 +80,7 @@ cp "$UBO_DIR"/src/lib/punycode.js "$DES"/js/
 
 cp -R "$UBO_DIR/src/img/flags-of-the-world" "$DES"/img
 
-cp LICENSE.txt "$DES"/
+cp LICENSE "$DES"/
 
 echo "*** uBOLite.mv3: Copying mv3-specific files"
 if [ "$PLATFORM" = "firefox" ]; then

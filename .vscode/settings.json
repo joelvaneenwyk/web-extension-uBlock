@@ -1,4 +1,5 @@
 {
+    "codeQL.createQuery.qlPackLocation": "assets/config/qlpack.yml",
   "[javascript][typescript]": {
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
